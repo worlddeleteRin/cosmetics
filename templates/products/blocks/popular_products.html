@@ -1,0 +1,15 @@
+ {% if popular_products %}
+ 
+ <div class="product__forsale__title">
+        <span>
+        Популярные товары
+        </span>
+    </div>
+
+    <div class="product__slider">
+        {% for product in popular_products  %}
+            {% include './single_product.html' %}
+        {% endfor %}
+    </div> 
+
+{% endif %}

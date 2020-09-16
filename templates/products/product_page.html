@@ -1,0 +1,96 @@
+{% extends './base.html' %}
+{% load static %}
+{% load products_extras %}
+ 
+
+
+{% block content %}
+
+{% format_price product.price as price %}
+
+<div class="product__page__wrapper">
+    <div class="product__page__container">
+        <div class="product__container__image">
+            <img src="{% static 'images/products/' %}{{ product.imgurl }}" alt="">
+        </div>
+        <div class="product__container__info">
+            <div class="product__container__name">
+                {{ product.name }}
+            </div>
+            <div class="product__container__price">
+                {{ price }} ₽
+            </div>
+            <div class="product__container__addcart">
+            <a class="product__addcart__link" value="{{ product.id }}">
+                в корзину
+            </a>
+            </div>
+            <div class="product__desc__block">
+
+            <div class="product__desc__block__title">
+                Особенности
+                </div>
+
+                <div class="product__info__blocks">
+                
+                {% check_empty_query product.pr_prtype as length1 %}
+                {% if length1 > 0 %}
+                <div class="product__info__block__single">
+                    <span> Тип товара: </span>
+                    {% for prtype in product.pr_prtype.all %}
+                        <span>{{ prtype.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% check_empty_query product.pr_category as length2 %}
+                {% if length2 > 0 %}
+                <div class="product__info__block__single">
+                    <span> Категория: </span>
+                    {% for category in product.pr_category.all %}
+                        <span>{{ category.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% check_empty_query product.pr_hairtype as length3 %}
+                {% if length3 > 0 %}
+                <div class="product__info__block__single">
+                    <span> Тип волос: </span>
+                    {% for hairtype in product.pr_hairtype.all %}
+                        <span>{{ hairtype.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                    
+                {% check_empty_query product.pr_destination as length4 %}
+                {% if length4 > 0 %}
+                <div class="product__info__block__single">
+                    <span> Назначение: </span>
+                    {% for destination in product.pr_destination.all %}
+                        <span>{{ destination.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                </div>
+
+            </div>
+            <!--end product info block-->
+            <!--product description block-->
+            <div class="product__desc__block">
+                <div class="product__desc__block__title">
+                Описание
+                </div>
+                <div class="product__desc__block__description">{{ product.description }}</div>
+            </div>
+            <!--end product description block-->
+        </div>
+    </div> 
+    <!-- end product page container -->
+</div> 
+<!-- end product page wrapper  -->
+
+{% endblock content %}
+
+

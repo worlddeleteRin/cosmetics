@@ -1,0 +1,85 @@
+{% load static %}
+{% block main_footer %}
+
+    <div class="footer__container">
+        <div class="footer__feedback__container">
+            <div class="footer__feedback__contact">
+                <i class="gg-mail"></i>
+                <div class="footer__feedback__contact__text">
+                    <div class="footer__feedback__contact__title">
+                        У вас остались вопросы?
+                    </div>
+                    <a href="mailto:proff-butik@mail.ru">
+                        proff-butik@mail.ru
+                    </a>
+                </div>
+            </div>
+            <div class="footer__feedback__contact">
+                <i class="gg-phone"></i>
+                <div class="footer__feedback__contact__text">
+                    <div class="footer__feedback__contact__title">
+                        Звоните нам!
+                    </div>
+                    <a href="tel:+79885940070">
+                        +7 (978) 594 00 70
+                    </a>
+                </div>
+            </div>
+            <div class="footer__feedback__button">
+                <span>Обратный звонок</span>
+            </div>
+        </div>
+        <div class="footer__about">
+            <div class="footer__about__wrap">
+
+            <div class="footer__about__first">
+            
+            <div class="footer__about__logo">
+                <img src="{% static 'images/logo_main.svg' %}" alt="">
+            </div>
+
+            <div class="footer__about__contact__container">
+            
+            <div class="footer__about__contact">
+                <a href="tel:+79885940070">
+                    +7 (978) 594 00 70
+                </a>
+            </div>
+            <div class="footer__about__contact">
+                <a href="mailto:proff-butik@mail.ru">
+                    proff-butik@mail.ru
+                </a>
+            </div>
+            </div>
+
+            <div class="footer__about__socials">
+                <a href="#">
+                    <i class='fab fa-vk'></i>
+                </a>
+                <a href="#">
+                    <i class='fab fa-instagram'></i>
+                </a>
+                
+            </div>
+            </div> <!--End footer about first-->
+            <!--Start footer about second -->
+            <div class="footer__about__second">
+                <div class="footer__about__second__title">
+                    Каталог
+                </div>
+                <div class="footer__about__second__categories">
+                    {% for category in categories  %} 
+                        <a href="{% url 'products:category' category.id %}">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <!--END footer about second -->
+            </div> <!--End footer about wrap-->
+        </div>
+
+        {% include '../blocks/footer__copyright.html' %}
+    </div>
+
+{% endblock main_footer %}

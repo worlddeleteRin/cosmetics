@@ -1,0 +1,31 @@
+{% load static %}
+{% load products_extras %}
+ 
+{% format_price product.price as price %}
+<div class="sproduct__wrap">
+    <div class="sproduct__container">
+        <div class="product__image">
+        <a href="{% url 'products:product_page' product.id %}">
+            <img src="{% static 'images/products/' %}{{ product.imgurl }}" alt="">
+        </div>
+        </a>
+        <div class="product__brand">
+            {{  product.pr_brand.name }}
+        </div>
+        <div class="product__name">
+        <a href="{% url 'products:product_page' product.id %}">
+            {{ product.name }}
+        </a>
+        </div>
+        <div class="product__price">
+            {{ price }} &#8381;
+        </div>
+
+        <a class="product__addcart__link" value="{{product.id}}">
+            <div class="product__addcart">
+                в корзину
+            </div>
+        </a>
+    </div>
+</div>
+

@@ -1,0 +1,15 @@
+<div class="products__search__list">
+    {% if products %}
+    
+    {% for product in products  %}
+    <a href="{% url 'products:product_page' product.id  %}">
+        <div class="product__search__item">
+            {{ product.name }}
+        </div>
+    </a>
+    {% endfor %}
+
+    {% else %}
+        <div>Не найдено товаров по данному запросу.</div>
+    {% endif %}
+</div>

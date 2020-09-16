@@ -1,0 +1,189 @@
+{% load static %}
+{% load products_extras %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>some title</title>
+
+    <link href='https://css.gg/css' rel='stylesheet'>
+
+
+    <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/a076d05399.js' %}"></script>
+    
+
+    <link rel="stylesheet" href="{% static 'slick/slick.css'%}">
+    <link rel="stylesheet" href="{% static 'slick/slick-theme.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    
+</head>
+<body>
+    <div class="all__site">
+    
+    {% block navigation %}
+        {% include './blocks/nav.html' %}
+    {% endblock navigation %}
+
+    <div class="main__content__container">
+    
+    {% block content %}
+
+    {% endblock content %}
+
+    </div>
+
+    {% block main_footer %}
+        {% include './blocks/footer.html' %}
+    {% endblock main_footer %}
+
+        {% include './blocks/contact_popup.html' %}
+
+    {% if ck_message == 'not' %}
+        {% include './blocks/cookie_agree.html' %}
+    {% endif %}
+
+    </div>
+
+
+    <div class="loading__block">
+    </div>
+
+    {% include './blocks/added_cart.html' %}
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'slick/slick.js' %}"></script>
+
+    {% block javascript %}
+    {% endblock javascript %}
+
+    <script>
+    cartUpdateTotal()
+
+
+// add to cart logic 
+$(".filter__block__content").click(function() {
+
+    if ($(this).hasClass('active')) {
+    $(this).removeClass("active")
+} else {
+    $(this).addClass("active")
+}
+
+// var filter_hair = []
+//var filter_prtype = []
+//var filter_destinations = []
+
+var [filter_hair, filter_prtype, filter_destinations,
+filter_brands] = collectActive();
+
+console.log(filter_hair)
+console.log(filter_prtype)
+console.log(filter_destinations)
+console.log(filter_brands)
+
+loadProducts(filter_hair, filter_prtype, filter_destinations,
+filter_brands)
+
+
+
+})
+
+function loadProducts(filter_hair, filter_prtype, 
+filter_destinations, filter_brands) {
+
+var brand_id = "{{ current_brand }}"
+var ser_id = "{{ current_ser }}"
+var category_id = "{{ current_category }}"
+
+$(".products__container").html('').load(
+    "{% url 'products:filter_products'%}?brand=" + brand_id + 
+    "&series=" + ser_id + "&hair_filters=" + filter_hair + 
+    "&prtype_filters=" + filter_prtype + "&dest_filters=" + 
+    filter_destinations + "&cat_id=" + category_id + 
+    "&brands_filter=" + filter_brands
+)
+}
+
+function collectActive() {
+var active_hair = []
+var active_types = []
+var active_destinations = []
+var active_brands = []
+
+var hair_class = $(".filter__hairtype")
+var prtype_class = $(".filter_prtype")
+var destination_class = $(".filter_destination")
+var brands_class = $(".filter__brands_filter")
+
+active_hair = parseActive(hair_class)
+active_types = parseActive(prtype_class)
+active_destinations = parseActive(destination_class)
+active_brands_filter = parseActive(brands_class)
+
+//console.log(active_hair)
+
+return [active_hair, active_types, active_destinations,
+active_brands_filter]
+}
+function parseActive(parse_class) {
+var tmp_list = []
+for (i = 0; i < parse_class.length; i++) {
+    if ($(parse_class[i]).hasClass("active")) {
+        var el = $(parse_class[i]).find("li")
+       // console.log($(el).attr('value'))
+        tmp_list.push($(el).attr('value'))
+    }
+}
+return tmp_list
+}
+
+
+$(".product__addcart__link").click(function() {
+closeModalAdded()
+console.log('start add to cart')
+product_id = $(this).attr("value")
+console.log(product_id)
+$.ajax({
+    url: "{% url 'cart:add_to_cart_ajax' %}",
+    data: {
+        'product_id': product_id,
+    },
+    success: function(data) {
+        cartUpdateTotal()
+        console.log(data)
+        showModalAdded()
+        
+    }
+});
+})
+
+function showModalAdded() {
+$(".modal__container__wrapper").addClass("show")
+setTimeout(function() {
+    $(".modal__container__wrapper").removeClass("show")
+}, 1500)
+}
+function closeModalAdded() {
+if ($(".modal__container__wrapper").hasClass("show")) {
+    $(".modal__container__wrapper").removeClass("show")
+}
+}
+
+function cartUpdateTotal() {
+    $.ajax({
+        url: "{% url 'cart:update_nav_total' %}",
+        data: {
+        },
+        success: function(data){
+            cart_total = data['cart_total']
+            $(".cart__total__nav").html(cart_total)
+        },
+    }
+    )
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+ {% load products_extras %}
+
+
+ {% filter_hairtype products as hairtypes %}
+ {% filter_prtype products as prtypes %}
+ {% filter_destination products as destinations %}
+
+    {% include './products_filters_mobile.html' %}
+
+
+ <div class="products_list__container">
+ 
+    {% include './products_filters.html' %}
+ 
+    {% include './products_wrap.html' %}
+
+</div>
+
+
+
+{% comment %} mobile filter wrapper {% endcomment %}
+
+
+
+{% block javascript %}
+
+    <script>
+
+
+    </script>
+
+
+{% endblock javascript %}

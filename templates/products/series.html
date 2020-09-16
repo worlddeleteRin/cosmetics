@@ -1,0 +1,23 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+    <div class="series__page__head">
+        <div class="series__page__head__container">
+            <div class="series__page__head__name">
+                {{series.name}}
+            </div>
+            <img src="{{series.imgurl}}" alt="">
+            {% if series.description != 'nan' %}
+                <div class="series__page__head__desc">
+                    {{ series.description }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include './blocks/products_list.html' %}
+
+
+{% endblock content %}
+

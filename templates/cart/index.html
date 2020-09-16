@@ -1,0 +1,437 @@
+{% extends '../products/base.html' %}
+{% load static %}
+{% block content %}
+
+<div style="display:none;">
+    <p>session key:</p>
+    {{ session_key }}
+</div>
+
+
+<div class="cart__content">
+
+   
+<div class="table__container">
+
+    <table>
+        <tr class="table__header__names">
+            <th>Товар</th>
+            <th>Наименование</th>
+            <th>Кол-во</th>
+            <th>Цена</th>
+            <th>Итого</th>
+        </tr>
+         {% for item in items  %}
+         <tr class="cart__table__row table__products__check" id="{{ item.id }}">
+         <td class="">
+            <img src="{% static 'images/products/' %}{{ item.imgurl }}" alt="">
+         </td>
+            <td class="table__product__name">
+            {{ item.name }}</td>
+            <td class="">
+                <div class="quantity__container">
+                
+            <a class="change__quantity__container change_remove" id="">
+                <li value = "{{item.id}}" style="display:none"></li>
+            {% comment %} {% url 'cart:remove_quantity' item.id %} {% endcomment %}
+                <i class="gg-math-minus change__quantity__icon"></i>
+                </a>
+                <span class="item__quantity__text"
+                id = "{{ item.id }}">
+            {{ item.quantity }}
+            </span>
+              <a class="change__quantity__container change_add" id="">
+                <li value = "{{ item.id }}" style="display:none"></li>
+                <i class="gg-math-plus change__quantity__icon"></i>
+                </a>
+
+                <div class="remove__item__from__cart" value="{{item.id}}">
+                    <i class="gg-close"></i>
+                </div>
+                </div>
+            </td>
+            <td> <span class="cart__price__text__label"> Цена: </span>
+                {{ item.price }}
+            </td>
+            <td> <span class="cart__price__text__label"> Сумма: </span>
+           <span class="item__amount" id="{{item.id}}"> 
+               {{ item.product_order_price }} 
+            </span>
+            </td>
+         </tr>
+        
+    {% endfor %}
+        <tr class="cart__table__row cart__table__sum__container">
+        <td></td>
+        <td></td>
+            <td>
+            Сумма корзины:
+            </td>
+            <td class="total__amount" value="{{ current_cart.get_total }}">
+                <li id="total__amount__value" value="{{current_cart.get_total}}"
+                style="display:none"></li>
+                {{ current_cart.get_total }}
+            </td>
+        </tr>
+
+        {% comment %} delivery row {% endcomment %}
+        <tr class="cart__table__row">
+            <td></td>
+            <td></td>
+            <td id="delivery__name" value="">
+                Доставка 
+            </td>
+            <td id="delivery__price" value="0">
+                0 
+            </td>
+        </tr>
+
+        <!-- start promo -->
+        <tr class="cart__table__row">
+            <td></td>
+            <td></td>
+            <td id="promo__name">
+                Промокод
+            </td>
+            <td id="promo__field" value="">
+            <label class="promo__check__status" 
+            for="#promo__input">
+                
+            </label>
+                <input type="text" id="promo__input"
+                class="promo__input" name="promo_input" placeholder="Промо">
+                <div class="promo__submit__btn">
+                Проверить
+                </div>
+            </td>
+        </tr>
+        <!--end promo -->
+        <!-- finished price -->
+        <tr class="cart__table__row">
+            <td></td>
+            <td></td>
+            <td id="allprice__name">
+                Итого 
+            </td>
+            <td id="allprice__price" value="">
+                0 
+            </td>
+        </tr>
+        <!--end finished price -->
+        <!-- finished price --> 
+        <tr class="cart__table__row cart__table__row__promo">
+            <td></td>
+            <td></td>
+            <td id="allprice__name__promo">
+                Цена по Промокоду:
+            </td>
+            <td id="allprice__price__promo" value="">
+                0 
+            </td>
+        </tr>
+        <!--end finished price -->
+    </table>
+    </div>
+
+    <div class="cart__minimalcost__title">
+        Минимальна сумма заказа - 1000 рублей.
+    </div>
+
+
+    <div class="cart__form__block__bytwo">
+    
+    {% include './blocks/delivery_form.html' %}
+
+    {% include './blocks/payment_form.html' %}
+
+    </div>
+
+    <div class="cart__form__block__bytwo">
+
+    {% include './blocks/customer_form.html' %}
+
+    {% include './blocks/address_form.html' %}
+
+    </div>
+
+    {% include './blocks/input_text_form.html' %}
+
+    {% include './blocks/create_order.html' %}
+
+</div> <!--cart content block end-->
+
+
+{% include './blocks/empty_cart.html' %}
+
+
+
+
+
+{% include './blocks/cart_thanks.html' %}
+
+{% include './blocks/cart_minimal_error.html' %}
+
+{% endblock content %}
+
+
+{% block javascript %}
+
+<script>
+
+    setPromo()
+    update_total_amount()
+    setAllPrice()
+    checkempty()
+
+    $(".change_remove").click(function() {
+        console.log('need to remove')
+        var item_id = $(this).children("li").attr("value")
+        remove_load(item_id)
+        cartUpdateTotal()
+        
+    })
+
+    $(".change_add").click(function() {
+        console.log('need to add')
+        var item_id = $(this).children("li").attr("value")
+        add_load(item_id)
+        cartUpdateTotal()
+    })
+
+    function remove_load(item_id) {
+        console.log('start ajax')
+        $.ajax({
+            url: "{% url 'cart:remove_item_ajax' %}",
+            data: {
+                'item_id': item_id,
+            },
+            success: function(data) {
+                if (data['need_delete'] == 'no') {
+                    console.log(data['quantity'])
+                    $("#" + item_id + ".item__quantity__text").html(data['quantity'])
+                    update_item_amount(item_id)
+                    update_total_amount()
+                }
+                if (data['need_delete'] == 'yes') {
+                    var current_product = $(".cart__table__row" + "#" + item_id)
+                    current_product.remove()
+                    update_total_amount()
+                    checkempty()
+                }
+                
+            }
+        });
+    }
+
+    function add_load(item_id) {
+        console.log('start ajax')
+        $.ajax({
+            url: "{% url 'cart:add_item_ajax' %}",
+            data: {
+                'item_id': item_id,
+            },
+            success: function(data) {
+                console.log(data['quantity'])
+                $("#" + item_id + ".item__quantity__text").html(data['quantity'])
+                update_item_amount(item_id)
+                update_total_amount()
+            }
+        });
+    }
+    function update_item_amount(item_id) {
+        console.log('start updating amount')
+        $.ajax({
+            url: "{% url 'cart:update_item_amount_ajax' %}",
+            data: {
+                'item_id': item_id,
+            },
+            success: function(data) {
+                console.log(data['item_amount'])
+               $("#" + item_id + ".item__amount").html(data['item_amount'])
+                
+            }
+        });
+    }
+    function update_total_amount() {
+        var delivery_price = parseInt($("#delivery__price").attr("value"))
+       $.ajax({
+            url: "{% url 'cart:update_total_amount_ajax' %}",
+            data: {
+
+            },
+            success: function(data) {
+                console.log(data['total_amount'])
+                if (data['has_promo'] == 'true') {
+                    console.log('it has promo')
+                    $(".cart__table__row__promo").addClass("show")
+                    $("#allprice__price").addClass("strike")
+                    var total = data['total_amount']
+                    var total_promo = data['total_amount_promo']
+                    $(".total__amount").html(data['total_amount'])
+                    $(".total__amount").attr("value", (data['total_amount']))
+                    total__promo = total_promo + delivery_price
+                    $("#allprice__price__promo").html(total__promo)
+                    $("#allprice__price__promo").attr("value", total__promo)
+                    console.log($(".total__amount"))
+                    //$(".allprice__price__promo").attr("value", total_promo)
+
+                } else {
+                    $("#allprice__price").removeClass("strike")
+                    $(".cart__table__row__promo").removeClass("show")
+                    console.log('no promo')
+                    var total = data['total_amount']
+                    $(".total__amount").html(data['total_amount'])
+                    $(".total__amount").attr("value", (data['total_amount']))
+                    console.log($(".total__amount"))
+                }
+               //$(".total__amount").html(data['total_amount'])
+               //$(".total__amount").attr("value", (data['total_amount']))
+               setAllPrice()
+            }
+        }); 
+    }
+
+    $('input[type=radio][name=shipping_method]').change(function() {
+        var price = 0
+        var shipping_name = ''
+        var cart_total = parseInt($(".total__amount").attr("value"))
+        console.log(cart_total + 10)
+        value = this.value
+        if (value == 'sdek') {
+            price = 300
+            shipping_name = 'Доставка СДЭК'
+        }
+        if (value == 'bypost') {
+            price = 200
+            shipping_name = 'Доставка Почтой'
+        }
+        if (value == 'personal') {
+            price = 0
+            shipping_name = 'Самовывоз'
+        }
+        if (value == 'courier') {
+            shipping_name = 'Курьером'
+            if (cart_total >= 2000) {
+                price = 0
+            } else {
+                price = 200
+            }
+        }
+
+        console.log($(this).text())
+        $("#delivery__name").html(shipping_name)
+        $("#delivery__name").attr("value", shipping_name)
+        $("#delivery__price").html(price)
+        $("#delivery__price").attr("value", price) 
+        update_total_amount()
+        setAllPrice()
+    });
+    function setAllPrice() {
+        console.log('setting all price...')
+        var item = $(".total__amount")
+        var pr_price = item.attr("value")
+        var delivery_price = $("#delivery__price").attr("value")
+        console.log('products prices are', pr_price)
+        console.log('delivery price is', delivery_price)
+        all_price = parseInt(pr_price) + parseInt(delivery_price)
+
+        //promo = $("#allprice__price__promo")
+        //$(promo).attr("value", all_price_promo)
+        //$(promo).html(all_price_promo)
+        $("#allprice__price").attr("value", all_price)
+        $("#allprice__price").html(all_price)
+    }
+
+    $(".remove__item__from__cart").click(function() {
+        console.log('start removing product')
+        var item_id = $(this).attr("value")
+        $.ajax({
+            url: "{% url 'cart:remove_item_from_cart_ajax' %}",
+            data: {
+                'item_id': item_id,
+            },
+            success: function(data) {
+                console.log(data)
+                var current_product = $(".cart__table__row" + "#" + item_id)
+                current_product.remove()
+                update_total_amount()
+                checkempty()
+                cartUpdateTotal()
+            }
+        });
+    })
+
+    function checkempty() {
+        items = $(".cart__table__row").hasClass("table__products__check")
+        if (!items) {
+            $(".cart__content").addClass("hide")
+            $(".empty__cart__wrap").addClass("show")
+
+        }
+    }
+
+    function cartUpdateTotal() {
+    $.ajax({
+        url: "{% url 'cart:update_nav_total' %}",
+        data: {
+        },
+        success: function(data){
+            cart_total = data['cart_total']
+            $(".cart__total__nav").html(cart_total)
+        },
+    }
+    )
+}
+$(".promo__submit__btn").click(function() {
+    var promo_status = $(".promo__check__status")
+    $(promo_status).html('')
+    var input_promo = $("input[name=promo_input]").val()
+    console.log(input_promo)
+    if (input_promo === "") {
+        $(promo_status).html('Поле пусто')
+    } else {
+        checkPromo()
+    }
+})
+
+function checkPromo() {
+    var promo_status = $(".promo__check__status")
+    var input_promo = $("input[name=promo_input]").val()
+    $.ajax({
+        url: "{% url 'cart:check_promo_ajax' %}",
+        data: {
+            'promo': input_promo,
+        },
+        success: function(data) {
+            if (data['exist'] == 'no') {
+                $(promo_status).html('Неверный промокод')
+            }
+            if (data['exist'] == 'yes') {
+                $(promo_status).html('Промокод подошел!')
+                update_total_amount()
+                cartUpdateTotal()
+            }
+
+        }
+    })
+}
+function setPromo() {
+
+    var promo_status = $(".promo__check__status")
+    var input_promo = $("input[name=promo_input]").val()
+    $.ajax({
+        url: "{% url 'cart:set_promo' %}",
+        data: {
+            
+        },
+        success: function(data) {
+            if (data['exist'] == 'yes') {
+                $(promo_status).html('Промокод подошел!')
+            }
+        }
+    })
+}
+
+</script>
+
+{% endblock javascript %}

@@ -1,0 +1,41 @@
+{% load static %}
+{% for product in products  %}
+   
+           {% include './single_product.html' %}
+ 
+{% endfor %}
+
+<script>
+
+
+$(".product__addcart__link").click(function() {
+closeModalAdded()
+console.log('start add to cart')
+product_id = $(this).attr("value")
+console.log(product_id)
+$.ajax({
+    url: "{% url 'cart:add_to_cart_ajax' %}",
+    data: {
+        'product_id': product_id,
+    },
+    success: function(data) {
+        console.log(data)
+        showModalAdded()
+        
+    }
+});
+})
+
+function showModalAdded() {
+$(".modal__container__wrapper").addClass("show")
+setTimeout(function() {
+    $(".modal__container__wrapper").removeClass("show")
+}, 1500)
+}
+function closeModalAdded() {
+if ($(".modal__container__wrapper").hasClass("show")) {
+    $(".modal__container__wrapper").removeClass("show")
+}
+}
+
+</script>

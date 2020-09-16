@@ -1,0 +1,46 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="infopages__wrapper">
+        <div class="infopages__title">
+            Контакты
+        </div>
+        <div class="infopages__content">
+                <div class="contact__info__fe__text">
+                    Вы всегда можете позвонить нам или написать на почту.
+                </div>
+            <div class="contact__info__fe__wrap">
+                <div class="contact__info__fe__info">
+                    <img src="{% static 'images/phone.svg' %}" alt="">
+                    <a href="tel:+79885940070"
+                    class="contact__info__fe__info__link">
+                    +7 (988) 594 00 70
+                    </a>
+                </div>
+                <div class="contact__info__fe__info">
+                    <img src="{% static 'images/mail.svg' %}" alt="">
+                    <a href="mailto:proff-butik@mail.ru"
+                    class="contact__info__fe__info__link">
+                    proff-butik@mail.ru
+                    </a>
+                </div>
+            </div>
+            
+            {% comment %} end wrap block {% endcomment %}
+            <div class="contact__info__fe__text">
+                    А также найти нас в социальных сетях.
+            </div>
+            <div class="contact__info__fe__wrap">
+                <div class="contact__info__fe__info__sc">
+                     <img src="{% static 'images/vk.svg' %}" alt="">
+                </div>
+                <div class="contact__info__fe__info__sc">
+                     <img src="{% static 'images/instagram.svg' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

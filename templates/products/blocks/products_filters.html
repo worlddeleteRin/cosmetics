@@ -1,0 +1,141 @@
+  
+ <div class="filter__wrap">
+    <div class="filter__container">
+
+    {% comment %} brands filter {% endcomment %}
+        {% if current_brands_filter %}
+            <div class="filter__block">
+        <div class="filter__block__wrapper">
+        
+            <a class="filter__block__heading"
+            data-target="#brands_filter_content">
+            <i class="gg-arrow-down"></i>
+                Бренд
+            </a>
+
+            <div class="filter__block__content__wrapper"
+            id="brands_filter_content">
+
+            {% for brand_filter in current_brands_filter %}
+                <div class="filter__block__content filter__brands_filter">
+                        <li value="{{brand_filter.id}}"
+                        class="filter__check__button"
+                        style="display: flex">
+                        <i class="gg-radio-check"></i>
+                        <i class="gg-check-r"></i>
+                        <span class="check__text__box">
+                            {{ brand_filter.name }}
+                        </span>
+                        </li>
+                </div>
+            
+            {% endfor %}
+            
+            </div>
+        </div>
+        </div>
+        {% endif %}
+        {% comment %} brands filter {% endcomment %}
+
+        {% comment %} {% endif %}         {% endcomment %}
+
+        {% if hairtypes %}
+        <div class="filter__block">
+        <div class="filter__block__wrapper">
+        
+            <a class="filter__block__heading"
+            data-target="#hairtype_content">
+            <i class="gg-arrow-down"></i>
+                Тип волос
+            </a>
+
+            <div class="filter__block__content__wrapper"
+            id="hairtype_content">
+
+            {% for hairtype in hairtypes %}
+                <div class="filter__block__content filter__hairtype">
+                        <li value="{{hairtype.id}}"
+                        class="filter__check__button"
+                        style="display: flex">
+                        <i class="gg-radio-check"></i>
+                        <i class="gg-check-r"></i>
+                        <span class="check__text__box">
+                            {{ hairtype }}
+                        </span>
+                        </li>
+                </div>
+            
+            {% endfor %}
+            
+            </div>
+        </div>
+        </div>
+        {% endif %}
+
+
+        {% if prtypes %}
+        <div class="filter__block">
+        <div class="filter__block__wrapper">
+            <a class="filter__block__heading"
+            data-target="#prtype_content">
+            <i class="gg-arrow-down"></i>
+                Тип товара
+            </a>
+            <div class="filter__block__content__wrapper"
+            id="prtype_content">
+
+            {% for prtype in prtypes %}
+                <div class="filter__block__content filter_prtype">
+                        <li class="filter__check__button"
+                        value="{{prtype.id}}"
+                        style="display: flex">
+                        <i class="gg-radio-check"></i>
+                        <i class="gg-check-r"></i>
+                        <span class="check__text__box">
+                            {{ prtype }}
+                        </span>
+                        </li>
+                </div>
+            
+            {% endfor %}
+            </div>
+        </div>
+        </div>
+        {% endif %}
+
+
+        {% if destinations %}
+        <div class="filter__block">
+        <div class="filter__block__wrapper">
+            <a class="filter__block__heading"
+            data-target="#destination_content">
+            <i class="gg-arrow-down"></i>
+                Назначение
+            </a>
+
+            <div class="filter__block__content__wrapper"
+            id="destination_content">
+
+            {% for destination in destinations %}
+                <div class="filter__block__content filter_destination">
+                        <li class="filter__check__button"
+                        value="{{destination.id}}"
+                        style="display: flex">
+                        <i class="gg-radio-check"></i>
+                        <i class="gg-check-r"></i>
+                        <span class="check__text__box">
+                            {{ destination }}
+                        </span>
+                        </li>
+                </div>
+            
+            {% endfor %}
+            </div>
+        </div>
+        </div>
+        {% endif %}
+
+
+
+        </div>
+        </div>

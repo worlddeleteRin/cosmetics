@@ -1,0 +1,33 @@
+{% load static %}
+
+<div class="minimal__error__wrap">
+    <div class="minimal__error__wrap__container">
+        <img src="{% static 'images/attention.svg' %}" alt="">
+        <div class="minimal__error__price__desc">
+        Минимальная сумма заказа: 
+        </div>
+        <div class="minimal__error__price">
+        <span>
+        1000 
+        </span>
+        руб.
+        </div>
+        <div class="minimal__error__btn">
+            Понятно
+        </div>
+    </div>
+</div>
+
+<div class="minimal__error__wrap__close">
+</div>
+
+<script>
+    $(".minimal__error__btn").click(function() {
+        $(".minimal__error__wrap").removeClass("show")
+            $(".minimal__error__wrap__close").removeClass("show")
+    })
+    $(".minimal__error__wrap__close").click(function() {
+        $(".minimal__error__wrap").removeClass("show")
+            $(".minimal__error__wrap__close").removeClass("show")
+    })
+</script>

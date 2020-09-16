@@ -1,0 +1,47 @@
+
+    <table>
+        <tr>
+            <th>Товар</th>
+            <th>Наименование</th>
+            <th>Кол-во</th>
+            <th>Цена</th>
+            <th>Итого</th>
+        </tr>
+         {% for item in items  %}
+         <tr class="cart__table__row">
+         <td class="">
+            <img src="{{ item.imgurl }}" alt="">
+         </td>
+            <td>
+            {{ item.name }}</td>
+            <td class="">
+                <div class="quantity__container">
+                
+            <a class="change__quantity__container" id="change_remove">
+                <li value = "{{item.id}}"></li>
+            {% comment %} {% url 'cart:remove_quantity' item.id %} {% endcomment %}
+                <i class="gg-math-minus change__quantity__icon"></i>
+                </a>
+            {{ item.quantity }}
+              <a class="change__quantity__container"
+              href="{% url 'cart:add_quantity' item.id %}">
+                <i class="gg-math-plus change__quantity__icon"></i>
+                </a>
+                </div>
+            </td>
+            <td>{{ item.price }}</td>
+            <td>
+           <strong> {{ item.product_order_price }} </strong>
+            </td>
+         </tr>
+        
+    {% endfor %}
+        <tr>
+            <td>
+            Сумма:
+            </td>
+            <td>
+                {{ current_cart.get_total }}
+            </td>
+        </tr>
+    </table>

@@ -1,0 +1,91 @@
+{% block contact__popup %}
+
+    <div class="contact__container">
+        <div class="contact__container__loading">    
+            <i class="gg-spinner-two loading__spinner"></i>
+        </div>
+        <div class="contact__wrap">
+            <div class="contact__close">
+                <i class="gg-close-o"></i>
+            </div>
+            <div class="contact__title">
+                Обратный звонок
+            </div>
+            <span class="contact__help">
+                Оставьте ваши контакты в форме ниже и мы перезвоним вам в кратчайшие сроки!
+            </span>
+            <form class="contact__form">
+                {% csrf_token %}
+                <label class="contact__label"
+                for="input_name"><strong style="font-size: 11px">* ИМЯ</strong></label>
+                <span class="contact__form__error__message contact__error__name">Введите ваше имя</span>
+                <input class="input__label" name="input_name" autocomplete="false"
+                type="text" placeholder="Ваше Имя" required>
+                <label class="contact__label"
+                for="input_phone"><strong style="font-size: 11px">* ТЕЛЕФОН</strong></label>
+                <span class="contact__form__error__message contact__error__phone">Введите ваш номер телефона</span>
+                <input class="input__label" name="input_phone" autocomplete="false"
+                type="text" placeholder="Ваш телефон" required>
+                
+                <div class="input__submit contact__input__submit">
+                    <span>
+                ПЕРЕЗВОНИТЕ МНЕ
+            </span>
+            </div>
+            </form>
+        </div>
+    </div>
+<div class="contact__back">
+</div>
+
+<div class="contact__container__thank">
+    <div class="contact__wrap__thank">
+        <i class="gg-smartphone-shake contact__phone__icon"></i>
+        <span>
+        Cпасибо за вашу заявку!
+        </span>
+        <div class="contact__wrap__thank__desc">
+            В ближайшее время с вами свяжется наш менеджер.
+        </div>
+    </div>
+</div>
+{% endblock contact__popup %}
+
+
+<script>
+    $(".input__submit").click(function() {
+        $(".contact__error__name").removeClass("show")
+        $(".contact__error__phone").removeClass("show")
+        name = $("input[name=input_name]").val()
+        phone = $("input[name=input_phone]").val()
+        // console.log(name === "")
+        if (name === "") {
+            $(".contact__error__name").addClass("show")
+        }
+        if (phone === "") {
+            $(".contact__error__phone").addClass("show")
+        }
+        if (name && phone != "") {
+            $(".contact__container__loading").addClass("show")
+            console.log('name and phone not empty, make request')
+            $.ajax({
+                url: "{% url 'products:contact_form_ajax' %}",
+                data: {
+                    'name': name,
+                    'phone': phone,
+                },
+                success: function(data) {
+                    if (data['success'] == 'true') {
+                        $(".contact__container__loading").removeClass("show")
+                        $(".contact__back").removeClass("show")
+                        $(".contact__container").removeClass("show")
+                        $(".contact__container__thank").addClass("show")
+                        setTimeout(function() {
+                            $(".contact__container__thank").removeClass("show")
+                        }, 3000)
+                    }
+                }
+            })
+        }
+    })  
+</script>

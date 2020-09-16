@@ -1,0 +1,43 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="main__slider__wrapper">
+    
+    <div class="main__slider">
+        <div class="main__slider__image">
+            <img src="{% static 'images/main_slider1.jpg' %}" alt="">
+        </div>
+        <div class="main__slider__image">
+            <img src="{% static 'images/main_slider2.jpg' %}" alt="">
+        </div>
+    </div>
+</div>
+
+    {% include './blocks/our_features.html' %}
+    
+
+   {% include './blocks/popular_products.html' %}
+
+
+
+    {% include './blocks/last_viewed_slider.html' %}
+
+<!-- 
+     <div class="products__wrap">
+        <div class="products__container">
+
+{% for product in products  %}
+   
+            {% include './blocks/single_product.html' %}
+ 
+{% endfor %}
+
+       </div>
+    </div>     -->
+
+
+{% endblock content %}
+
+

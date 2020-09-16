@@ -1,0 +1,30 @@
+    <!--address form-->
+    <div class="address__container cart__form__container">
+        <div class="address__title cart__form__main__title">
+            Адрес доставки
+        </div>
+        <div class="cart__error__message" id="error__address">
+            Заполните все поля
+        </div>
+    <form class="address__form cart__info__form"
+    action="">
+        {% csrf_token %}
+        <label class="contact__label"
+        for="customer_address_city"><strong style="font-size: 13px">Город</strong></label>
+        <input class="cart__input" name="customer_address_city"
+        type="text" placeholder="">
+        <label class="contact__label"
+        for="customer_address_fullad"><strong style="font-size: 13px">Адрес</strong></label>
+        <input class="cart__input" name="customer_address_fullad"
+        type="text" placeholder="">
+       
+
+    </form>
+    </div>
+
+    <!--End address form-->
+
+    <script>
+
+
+    </script>

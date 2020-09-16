@@ -1,0 +1,70 @@
+{% extends './base.html' %}
+{% load products_extras %}
+{% load static %}
+
+
+
+
+
+{% block content %}
+
+
+{% filter_hairtype products as hairtypes %}
+{% filter_prtype products as prtypes %}
+{% filter_destination products as destinations %}
+
+
+
+
+
+ <!-- Start os series with filters -->
+<div class="series__with__filters">
+
+<div class="brand__filters__style">
+{% include './blocks/products_filters.html' %}
+</div>
+
+
+<div class="brand__wrapper__main">
+    <div class="brand__wrapper__container">
+        <div class="brand__main__info">
+            <img src="{% static 'images/' %}{{brand.imgurl}}" alt="">
+        {% if brand.description != 'nan' %}
+            <div class="brand__main__info__desc">
+                {{ brand.description }}
+            </div>
+        {% endif %}
+        </div> 
+        
+        <!-- start series main wrapper -->
+        <div class="series__main__wrapper">
+            <div class="series__main__container">
+                {% for ser in series  %}
+                    <div class="series__main__container__block">
+                        <a href="{% url 'products:series' brand.id ser.id %}">
+                            <img class="series__main__container__block__image"
+                            src="{{ser.imgurl}}" alt="">
+                            <div>
+                            {{ ser.name }}
+                            </div>
+                        </a>
+                    </div>
+                
+            {% endfor %}
+            </div>
+        </div> 
+        <!-- End of series main wrapper -->
+        {% include './blocks/products_filters_mobile.html' %}
+        {% include './blocks/products_wrap.html' %}
+    </div>
+</div>
+
+
+</div>
+
+<!-- End of series with filters -->
+
+
+
+
+{% endblock content %}

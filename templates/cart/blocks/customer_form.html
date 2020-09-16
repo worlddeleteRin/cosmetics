@@ -1,0 +1,29 @@
+    <!--customer form-->
+    <div class="customer__container cart__form__container">
+        <div class="customer__title cart__form__main__title">
+            Покупатель
+        </div>
+        <div class="cart__error__message" id="error__customer__info">
+            Укажите имя и номер телефона
+        </div>
+    <form class="customer__form cart__info__form"
+    action="">
+        {% csrf_token %}
+        <label class="contact__label"
+        for="customer_name"><strong style="font-size: 13px">* ИМЯ</strong></label>
+        <input class="cart__input" name="customer_name"
+        type="text" placeholder="Ваше Имя">
+        <label class="contact__label"
+        for="customer_phone"><strong style="font-size: 13px">* Телефон</strong></label>
+        <input class="cart__input" name="customer_phone"
+        type="text" placeholder="+7">
+
+    </form>
+    </div>
+
+    <!--End customer form-->
+
+    <script>
+
+
+    </script>

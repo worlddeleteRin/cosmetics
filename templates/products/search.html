@@ -1,0 +1,19 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+    <div class="searchpage__title">
+        поиск по запросу "{{search_query}}"
+    </div>
+
+    {% if products %}
+
+    {% include './blocks/products_list.html' %}
+
+    {% else %}
+        <div class="nothing__find__message">
+            По вышему запросу ничего не найдено.
+        </div>
+    {% endif %}
+
+{% endblock content %}

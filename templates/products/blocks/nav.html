@@ -1,0 +1,189 @@
+{% load static %}
+{% block navigation %} 
+
+    {% include './header_top.html' %}
+    <div class="header__main">
+        <div>
+        <div class="header__inner">
+                <div class="mobile__menu__trigger">
+                    <i class="gg-menu menu__trigger__icon"></i>
+                </div>
+            <div class="header__logo">
+                <a class="header__logo__link"
+                href="{% url 'products:index' %}">
+                    <img class="header__logo__img"
+                    src="{% static 'images/logo_main.svg' %}" alt="">
+                </a>
+
+            </div>
+            <div class="wrap__search">
+                    <form class="search" action="{% url 'products:search'  %}" method="get" autocomplete="off">
+                   <input type="text" class="searchTerm" placeholder="Что вы ищете?" name="q">
+                   {% comment %} <a href=" "> {% endcomment %}
+                   <button type="submit" class="searchButton">
+                        <i class="gg-search"></i>
+                  </button>
+                  </form>
+                  {% comment %} </a> {% endcomment %}
+                <div class="wrap__search__results">
+
+                </div>
+             </div>
+            <div class="header__cart">
+                <a class="header__cart__link"
+                href="{% url 'cart:index' %}">
+                    <div class="cart__link__title">
+                        <span>
+                            <span class="cart__link__title__secondinfo">
+                            Корзина / 
+                            </span>
+                            <span>
+                            &#8381; 
+                            </span>
+                        <span class="cart__total__nav">
+                            0.00
+                        </span>    
+                        </span>
+                    </div>
+                    <div class="cart__link__icon">
+                        <i class="gg-shopping-bag"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+            <div class="header__main__message">
+                Интернет-магазин профессиональной косметики для волос
+            </div>
+        </div>
+        
+    </div>
+
+
+    <!-- second navbar -->
+        <div class="header__second">
+            <div class="header__second__container">
+
+                {% for brand in allbrands  %}
+                    
+               
+                <div class="header__second__item">
+                
+                    <a
+                    href="{% url 'products:brand' brand.id %}">
+                        <img class="header__second__item__image"
+                        src="{% static 'images/' %}{{brand.imgurl}}" alt="">
+                    </a>
+                </div>
+
+                {% endfor %}
+                
+            </div>
+        </div>
+    <!-- end second navbar -->
+
+    <!--Start third navbar-->
+
+        <div class="header__third">
+            <div class="header__third__container">
+
+            {% for category in categories  %}
+                <div class="header__third__item">
+                    <a
+                    href="{% url 'products:category' category.id %}">
+                        <span class="header__third__item__text">
+                            {{ category }}
+                        </span>
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+
+    <!--End third navbar-->
+
+
+
+    <!-- mobile popup navbar -->
+
+    <div class="mobile__main">
+        <div class="wrap__search__mobile">
+            <form class="search" action="{% url 'products:search'  %}" method="get" autocomplete="off">
+                   <input type="text" class="searchTerm" placeholder="Что вы ищете?" name="q">
+                   {% comment %} <a href=" "> {% endcomment %}
+                   <button type="submit" class="searchButton">
+                        <i class="gg-search"></i>
+                  </button>
+                  </form>
+         </div>
+
+         <div class="category__title__container">
+             <div class="category__title">
+                Категории
+             </div>
+         </div>
+            {% for category in categories  %}
+            <a class="category__container__link"
+            href="{% url 'products:category' category.id %}">
+                 <div class="category__container">
+                     <p>{{ category.name }}</p>
+                </div>
+            </a>
+            {% endfor %}
+
+         <div class="category__title__container">
+             <div class="category__title">
+                Бренды
+             </div>
+         </div>
+            {% for brand in allbrands  %}
+            <a class="category__container__link"
+            href="{% url 'products:brand' brand.id %}">
+                <div class="category__container">
+                    <p>{{ brand.name }}</p>
+                </div>
+            </a>
+            {% endfor %}
+
+    </div>
+    <div class="mobile__wrapper">
+    </div>
+
+    <!-- end mobile popub navbar -->
+
+
+{% endblock navigation %}
+
+{% block javascript %}
+<script>
+    $(".searchTerm").on( 'input', function() {
+    makesearch($(this))
+});
+    $(".searchTerm").focusout(function() {
+        //$(".wrap__search__results").removeClass('show')
+    })
+
+    $(".searchTerm").click(function() {
+        makesearch($(this))
+    })
+
+    function makesearch(item) {
+    var query = $(item).val()
+    console.log(query.length > 1)
+    if (query.length > 1) {
+        var value = query.split(" ")
+        console.log(value, value.length)
+        $(".wrap__search__results").html('').load(
+            "{% url 'products:search_ajax' %}?q=" + 
+            value, 
+        function(response, responseStatus) {
+                console.log(responseStatus)
+                $(".wrap__search__results").addClass('show')
+            }
+        );
+    } else {
+        $(".wrap__search__results").removeClass('show')
+    }
+}
+
+</script> 
+{% endblock javascript %}
