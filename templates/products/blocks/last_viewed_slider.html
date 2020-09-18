@@ -5,8 +5,25 @@
         Последние просмотренные
         </span>
     </div>
-<div class="product__slider">
-        {% for product in last_viewed_products  %}
+
+
+<div class="product__slider product__slider__4">
+    {% for product in last_viewed_products  %}
+            {% include './single_product.html' %}
+        {% endfor %}
+</div> 
+<div class="product__slider product__slider__3">
+    {% for product in last_viewed_products  %}
+            {% include './single_product.html' %}
+        {% endfor %}
+</div> 
+<div class="product__slider product__slider__2">
+    {% for product in last_viewed_products  %}
+            {% include './single_product.html' %}
+        {% endfor %}
+</div> 
+<div class="product__slider product__slider__1">
+    {% for product in last_viewed_products  %}
             {% include './single_product.html' %}
         {% endfor %}
 </div> 

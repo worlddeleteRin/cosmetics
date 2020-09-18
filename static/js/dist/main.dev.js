@@ -24,10 +24,11 @@ $(document).ready(function () {
     // fade: true,
 
   });
-  $('.product__slider').slick({
+  $('.product__slider__4').slick({
     //slide: 'div',
     slidesToScroll: 4,
     slidesToShow: 4,
+    mobileFirst: true,
     //dots: true,
     infinite: true,
     cssEase: 'ease',
@@ -35,30 +36,49 @@ $(document).ready(function () {
     arrows: true,
     autoplay: true,
     autoplayspeed: 1000,
-    // centerMode: true,
-    //centerPadding: '60px',
-    // lazyLoad: 'ondemand',
-    // rtl: true,
-    // fade: true,
-    responsive: [{
-      breakpoint: 991,
-      settings: {
-        slidesToScroll: 3,
-        slidesToShow: 3
-      }
-    }, {
-      breakpoint: 590,
-      settings: {
-        slidesToScroll: 2,
-        slidesToShow: 2
-      }
-    }, {
-      breakpoint: 423,
-      settings: {
-        slidesToScroll: 1,
-        slidesToShow: 1
-      }
-    }]
+    lazyLoad: 'ondemand'
+  });
+  $('.product__slider__3').slick({
+    //slide: 'div',
+    slidesToScroll: 3,
+    slidesToShow: 3,
+    mobileFirst: true,
+    //dots: true,
+    infinite: true,
+    cssEase: 'ease',
+    swipe: true,
+    arrows: true,
+    autoplay: true,
+    autoplayspeed: 1000,
+    lazyLoad: 'ondemand'
+  });
+  $('.product__slider__2').slick({
+    //slide: 'div',
+    slidesToScroll: 2,
+    slidesToShow: 2,
+    mobileFirst: true,
+    //dots: true,
+    infinite: true,
+    cssEase: 'ease',
+    swipe: true,
+    arrows: true,
+    autoplay: true,
+    autoplayspeed: 1000,
+    lazyLoad: 'ondemand'
+  });
+  $('.product__slider__1').slick({
+    //slide: 'div',
+    slidesToScroll: 1,
+    slidesToShow: 1,
+    mobileFirst: true,
+    //dots: true,
+    infinite: true,
+    cssEase: 'ease',
+    swipe: true,
+    arrows: true,
+    autoplay: true,
+    autoplayspeed: 1000,
+    lazyLoad: 'ondemand'
   });
 });
 $(".mobile__menu__trigger").click(function () {

@@ -55,8 +55,7 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'slick/slick.js' %}"></script>
 
-    {% block javascript %}
-    {% endblock javascript %}
+    
 
     <script>
     cartUpdateTotal()
@@ -185,5 +184,9 @@ function cartUpdateTotal() {
 }
 
     </script>
+
+{% block javascript %}
+{% endblock javascript %}
+
 </body>
 </html>

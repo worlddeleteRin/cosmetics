@@ -109,7 +109,7 @@ def createseries(series_data):
         if (Brand.objects.filter(name = brand_name).exists()):
             brand = Brand.objects.get(name = brand_name)
             name = item['name'].strip()
-            name = name.lower()
+            # name = name.lower()
             new_ser = Series(
                 ser_brand = brand,
                 name = name,
@@ -190,6 +190,7 @@ def createproducts(products_data, series_not_created):
             for n in eval(item["category"]):
                 cname = n.lower()
                 cname = cname.strip()
+                print(cname)
                 current_category = Category.objects.get_or_create(name = cname)[0]
                 new_product.pr_category.add(current_category)
         if type(item["product_type"]) == str:
@@ -200,7 +201,7 @@ def createproducts(products_data, series_not_created):
         if type(item['lineika']) == str:
             for n in eval(item['lineika']):
                 n = n.strip()
-                n = n.lower()
+                # n = n.lower()
                 if Series.objects.filter(name = n).exists():
                     current_series = Series.objects.get(name = n)
                     new_product.pr_series.add(current_series)
@@ -231,7 +232,7 @@ def createall():
     series_data = pd.read_csv('/Users/noname/work/inna/goods/new/series.csv')
     series_not_created = '/Users/noname/work/inna/goods/series/notser.xlsx'
 
-    # create_categories()
+    create_categories()
     createbrands(brands_data)
     createseries(series_data)
     createproducts(products_data, series_not_created)
