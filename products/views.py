@@ -91,7 +91,8 @@ def category(request, category_id):
     products = Product.objects.filter(pr_category__id = category_id)
 
     curr_br = products.values('pr_brand').distinct()
-    current_brands_filter = Brand.objects.filter(id__in = br)
+    print(curr_br)
+    current_brands_filter = Brand.objects.filter(id__in = curr_br)
 
     return render(request, 'products/category.html', {
         'allbrands': br,

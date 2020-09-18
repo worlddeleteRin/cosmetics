@@ -19,6 +19,7 @@ $.ajax({
         'product_id': product_id,
     },
     success: function(data) {
+        cartUpdateTotal()
         console.log(data)
         showModalAdded()
         

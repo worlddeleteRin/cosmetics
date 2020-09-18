@@ -10,6 +10,9 @@ import base64
 
 
 def create_categories():
+    print('------------------')
+    print('start creating categories')
+    print('------------------')
     cat = [
         'уход',
         'стайлинг',
@@ -22,6 +25,9 @@ def create_categories():
         new_cat.save()
 
 def make_products_file():
+    print('------------------')
+    print('start making products file')
+    print('------------------')
     path_files = '/Users/noname/work/inna/goods/xl/'
     export_path = '/Users/noname/work/inna/goods/new/'
     data_tmp = []
@@ -36,7 +42,6 @@ def make_products_file():
     data = data.replace('для всех типов', 'Все типы')
     data = data.replace('все типы', 'Все типы')
 
-    data["price"] = data["price"].replace(" ", "")
     data["nazhnachenie"] = data["nazhnachenie"].str.split("|")
     data["tip_volos"] = data["tip_volos"].str.split("|")
     data["product_type"] = data["product_type"].str.split("|")
@@ -46,6 +51,9 @@ def make_products_file():
     print('data file created, shape is: ', data.shape)
 
 def make_products_final():
+    print('------------------')
+    print('start making products final')
+    print('------------------')
     products_path = '/Users/noname/work/inna/goods/new/data.csv'
     to_save = '/Users/noname/work/inna/cosmetics/static/images/products/'
     export_path = '/Users/noname/work/inna/goods/new/'
@@ -82,6 +90,9 @@ def make_products_final():
 
 
 def make_series_file():
+    print('------------------')
+    print('make series file')
+    print('------------------')
     ser_path = '/Users/noname/work/inna/goods/series/series_template4.xlsx'
     export_path = '/Users/noname/work/inna/goods/new/series.csv'
     data = pd.read_excel(ser_path)
@@ -89,6 +100,9 @@ def make_series_file():
 
 
 def createseries(series_data):
+    print('------------------')
+    print('start creating series')
+    print('------------------')
     i = 0
     for index, item in series_data.iterrows():
         brand_name = item['brand'].lower()
@@ -111,6 +125,9 @@ def createseries(series_data):
 
 
 def createbrands(brands_data):
+    print('------------------')
+    print('start creating brands')
+    print('------------------')
     i = 0
     for index, item in brands_data.iterrows():
         brand_name = item['name'].lower()
@@ -144,6 +161,7 @@ def createproducts(products_data, series_not_created):
         #         name__iexact = curr_ser,
         #         ser_brand = current_brand,
         #     )
+
         price = item["price"].replace(" ", "")
         price = int(price)
         new_product = Product(
@@ -192,7 +210,7 @@ def createproducts(products_data, series_not_created):
                     nf_series += 1
 #         
         i = i + 1
-        print('id: ', index, new_product.name, ' created')
+        print('id: ', index, new_product.id, new_product.name, ' created')
 
         
     not_ser = np.asarray(not_ser)
@@ -205,12 +223,15 @@ def createproducts(products_data, series_not_created):
     
     
 def createall():
+    print('------------------')
+    print('start creating all')
+    print('------------------')
     products_data = pd.read_csv('/Users/noname/work/inna/goods/new/data2.csv')
     brands_data = pd.read_csv('/Users/noname/work/inna/goods/brands.csv')
     series_data = pd.read_csv('/Users/noname/work/inna/goods/new/series.csv')
     series_not_created = '/Users/noname/work/inna/goods/series/notser.xlsx'
 
-    create_categories()
+    # create_categories()
     createbrands(brands_data)
     createseries(series_data)
     createproducts(products_data, series_not_created)
