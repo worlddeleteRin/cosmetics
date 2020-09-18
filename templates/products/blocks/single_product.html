@@ -18,14 +18,17 @@
             {{ product.name }}
         </a>
         </div>
+        {% if product.obiem != 'nan' %}
         <div class="product_volume">
             {{ product.obiem }}
         </div>
+        {% endif %}
         <div class="product__price">
             {{ price }} &#8381;
         </div>
 
-        <a class="product__addcart__link" value="{{product.id}}">
+        <a class="product__addcart__link" value="{{product.id}}"
+        onclick="">
             <div class="product__addcart">
                 в корзину
             </div>

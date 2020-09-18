@@ -17,9 +17,11 @@
             <div class="product__container__name">
                 {{ product.name }}
             </div>
+            {% if product.obiem != 'nan'%}
             <div class="product_volume product_prpage_volume">
                 {{ product.obiem }}
             </div>
+            {% endif %}
             <div class="product__container__price">
                 {{ price }} ₽
             </div>
