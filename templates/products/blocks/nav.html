@@ -129,8 +129,8 @@
                 </div>
             </a>
             {% endfor %}
-
-         <div class="category__title__container">
+            
+         <!-- <div class="category__title__container">
              <div class="category__title">
                 Бренды
              </div>
@@ -142,7 +142,61 @@
                     <p>{{ brand.name }}</p>
                 </div>
             </a>
-            {% endfor %}
+            {% endfor %} -->
+
+            <div class="category__title__container">
+                <div class="category__title">
+                   Навигация
+                </div>
+            </div>
+            <a class="category__container__link"
+            href="{% url 'products:aboutus' %}">
+                <div class="category__container">
+                    <p>
+                        О нас
+                    </p>
+                </div>
+             </a>
+            <a class="category__container__link"
+            href="{% url 'products:payment_info' %}">
+                <div class="category__container">
+                    <p>
+                        Оплата
+                    </p>
+                </div>
+             </a>
+            <a class="category__container__link"
+            href="{% url 'products:delivery_info' %}">
+                <div class="category__container">
+                    <p>
+                        Доставка
+                    </p>
+                </div>
+             </a>
+            <a class="category__container__link"
+            href="{% url 'products:take_back' %}">
+                <div class="category__container">
+                    <p>
+                        Возврат
+                    </p>
+                </div>
+             </a>
+            <a class="category__container__link"
+            href="{% url 'products:partners_info' %}">
+                <div class="category__container">
+                    <p>
+                        Партнерам
+                    </p>
+                </div>
+             </a>
+            <a class="category__container__link"
+            href="{% url 'products:contact_info' %}">
+                <div class="category__container">
+                    <p>
+                        Контакты
+                    </p>
+                </div>
+             </a>
 
     </div>
     <div class="mobile__wrapper">

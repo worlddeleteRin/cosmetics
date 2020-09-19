@@ -8,7 +8,6 @@
 
     <link href='https://css.gg/css' rel='stylesheet'>
 
-
     <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/a076d05399.js' %}"></script>
@@ -32,7 +31,7 @@
 
     {% endblock content %}
 
-    </div>
+   
 
     {% block main_footer %}
         {% include './blocks/footer.html' %}
@@ -43,6 +42,9 @@
     {% if ck_message == 'not' %}
         {% include './blocks/cookie_agree.html' %}
     {% endif %}
+
+
+    </div>
 
     </div>
 
