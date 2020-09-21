@@ -13,6 +13,9 @@ import urllib.parse
 # to serialize to json format 
 from django.core import serializers
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 # Create your views here.
 
@@ -233,7 +236,7 @@ def create_order_ajax(request):
     order_comment = request.GET['cart_comment']
     order_comment = urllib.parse.unquote(order_comment)
 
-    order_price = int(delivery_cost) + cart.get_total()
+    order_price = int(delivery_cost) + cart.get_total_promo()
 
     new_order = Orders(
         name = customer_name,
@@ -246,8 +249,16 @@ def create_order_ajax(request):
         comment = order_comment,
     )
     new_order.save()
+
+    cart_items_mail = []
+    order_price_mail = order_price
+    order_comment_mail = order_comment
+    customer_address_mail = customer_address
+    delivery_method_mail = delivery_method
+
     for item in cart_items:
         new_order.item_set.add(item)
+        cart_items_mail.append([item.name, item.quantity, item.price])
 
     for item in cart.item_set.all():
         cart.item_set.remove(item)
@@ -255,6 +266,16 @@ def create_order_ajax(request):
     cart.promo = None
     cart.save()
 
+    send_mail(
+    'Новый заказ на сайте!',
+    'Имя: {} .Номер: {} '.format(customer_name, customer_phone) + 
+    str(cart_items_mail) + ' Сумма заказа: {}'.format(order_price_mail) +
+    ' Адрес доставки: {}'.format(customer_address_mail) +
+    ' Способ доставки: {} . Комментарий к заказу: {}'.format
+    (delivery_method_mail, order_comment_mail),
+    settings.EMAIL_HOST_USER,
+    ['proff-butik@mail.ru'],
+    )
 
     return JsonResponse({
         'order_created': 'yes',
