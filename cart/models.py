@@ -6,6 +6,10 @@ from django.db import models
 class Promocode(models.Model):
     name = models.CharField(max_length = 200, default = '')
     discount = models.IntegerField(default = 0)
+
+    def __str__(self):
+        return self.name + '. Скидка: ' + str(self.discount)
+    
     
 
 class Cart(models.Model):  
@@ -55,6 +59,11 @@ class Orders(models.Model):
     address = models.CharField(max_length = 400, default = '')
     order_price = models.IntegerField(max_length = 10, default = 0)
     comment = models.CharField(max_length = 3000, default = '')
+
+    def __str__(self):
+        to_return = 'Заказ ' + str(self.id) + '. Сумма заказа: ' + str(self.order_price)
+        return to_return
+    
 
 
 
