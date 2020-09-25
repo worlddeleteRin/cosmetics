@@ -8,6 +8,9 @@ import pandas as pd
 import requests
 import base64
 
+brand_img_path = 'static/images/'
+products_img_path = 'static/images/products/'
+
 
 def create_categories():
     print('------------------')
@@ -238,9 +241,9 @@ def createall():
     createproducts(products_data, series_not_created)
 
 if __name__ == '__main__':
-    # make_products_file()
-    # make_products_final()
-    # make_series_file()
+    make_products_file()
+    make_products_final()
+    make_series_file()
     createall()
 
 

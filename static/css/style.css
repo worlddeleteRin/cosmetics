@@ -1438,7 +1438,7 @@ box-shadow: 0px 6px 17px -8px rgba(0,0,0,0.75);
 
 .series__main__container__block  a img {
     margin-bottom: 20px;
-    width: 40%;
+    width: 100%;
     max-height: 120px;
     object-fit: contain;
     overflow: hidden;

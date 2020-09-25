@@ -11,7 +11,8 @@
 <div class="product__page__wrapper">
     <div class="product__page__container">
         <div class="product__container__image">
-            <img src="{% static 'images/products/' %}{{ product.imgurl }}" alt="">
+            {% corrent_imgurl product.imgurl as correct_productimg %}
+            <img src="{% static 'images/products/' %}{{ correct_productimg }}" alt="">
         </div>
         <div class="product__container__info">
             <div class="product__container__name">

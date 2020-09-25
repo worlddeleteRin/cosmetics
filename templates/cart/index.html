@@ -1,5 +1,6 @@
 {% extends '../products/base.html' %}
 {% load static %}
+{% load products_extras %}
 {% block content %}
 
 <div style="display:none;">
@@ -24,7 +25,8 @@
          {% for item in items  %}
          <tr class="cart__table__row table__products__check" id="{{ item.id }}">
          <td class="">
-            <img src="{% static 'images/products/' %}{{ item.imgurl }}" alt="">
+         {% corrent_imgurl item.imgurl as correct_productimg %}
+            <img src="{% static 'images/products/' %}{{ correct_productimg }}" alt="">
          </td>
             <td class="table__product__name">
             {{ item.name }}</td>

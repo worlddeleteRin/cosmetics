@@ -1,5 +1,7 @@
 {% load static %}
+{% load products_extras %}
 {% block navigation %} 
+
 
     {% include './header_top.html' %}
     <div class="header__main">
@@ -67,11 +69,11 @@
                     
                
                 <div class="header__second__item">
-                
+                {% corrent_imgurl brand.imgurl as correct_brandimg %}
                     <a
                     href="{% url 'products:brand' brand.id %}">
                         <img class="header__second__item__image"
-                        src="{% static 'images/' %}{{brand.imgurl}}" alt="">
+                        src="{% static 'images/' %}{{ correct_brandimg }}" alt="">
                     </a>
                 </div>
 

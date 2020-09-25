@@ -50,3 +50,11 @@ def format_price(price):
 def check_empty_query(qs):
     length = len(qs.all())
     return length
+
+@register.simple_tag
+def corrent_imgurl(imgurl):
+    if ('/' in imgurl.name):
+        corrent_url = imgurl.name.split('/')[-1]
+        return corrent_url
+    else:
+        return imgurl

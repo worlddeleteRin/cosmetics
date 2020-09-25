@@ -25,7 +25,8 @@ class Hairtype(models.Model):
 class Brand(models.Model):
     name = models.CharField(max_length = 100, default = '')
     description = models.CharField(max_length = 2000, default = '')
-    imgurl = models.CharField(max_length = 1000, default = '')
+    # imgurl = models.CharField(max_length = 1000, default = '')
+    imgurl = models.ImageField(upload_to='static/images', blank = True, null = True)
     def __str__(self):
         return self.name
 
@@ -51,8 +52,8 @@ class Product(models.Model):
     price = models.IntegerField()
     description = models.CharField(max_length = 2000, default = '')
     obiem = models.CharField(max_length = 10, default = '')
-    imgurl = models.CharField(max_length = 2000, default = '')
-    
+    # imgurl = models.CharField(max_length = 2000, default = '')
+    imgurl = models.ImageField(upload_to='static/images/products', blank = True, null = True)    
     product_rate = models.IntegerField(default = 0)
 
     def __str__(self):

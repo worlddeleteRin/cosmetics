@@ -66,7 +66,8 @@ class Item(models.Model):
 
     name = models.CharField(max_length = 200, default = '')
     price = models.IntegerField(default = 0)
-    imgurl = models.CharField(max_length = 300, default = '')
+    # imgurl = models.CharField(max_length = 300, default = '')
+    imgurl = models.ImageField(upload_to='static/images/products')
     quantity = models.IntegerField(default = 1)
 
     def product_order_price(self):

@@ -7,7 +7,8 @@
     <div class="sproduct__container">
         <div class="product__image">
         <a href="{% url 'products:product_page' product.id %}">
-            <img src="{% static 'images/products/' %}{{ product.imgurl }}" alt="">
+        {% corrent_imgurl product.imgurl as correct_productimg %}
+            <img src="{% static 'images/products/' %}{{ correct_productimg }}" alt="">
         </div>
         </a>
         <div class="product__brand">
