@@ -1408,6 +1408,7 @@ font-size: 20px;
     margin: 0px auto;
 }
 .series__main__container {
+    box-shadow: 0px 26px 15px -35px rgba(0,0,0,0.75);
     margin: 0px auto;
     width: 100%;
     display: flex;
@@ -1426,6 +1427,7 @@ font-size: 20px;
     display: flex;
     flex-direction: column;
     width: 30%;
+    font-weight: 600;
     align-content: center;
     align-items: center;
     transition: all 0.6s;

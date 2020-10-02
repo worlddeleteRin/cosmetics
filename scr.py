@@ -241,9 +241,9 @@ def createall():
     createproducts(products_data, series_not_created)
 
 if __name__ == '__main__':
-    make_products_file()
-    make_products_final()
-    make_series_file()
+    # make_products_file()
+    # make_products_final()
+    # make_series_file()
     createall()
 
 
