@@ -207,8 +207,10 @@ def product_page(request, product_id):
     else:
         ck_message = 'yes'
         current_session_key = request.session.session_key
-    
-    cart = Cart.objects.get_or_create(session_key = current_session_key)[0]
+    try:
+        cart = Cart.objects.get_or_create(session_key = current_session_key)[0]
+    except:
+        pass
 
 
     allbrands = Brand.objects.all()
