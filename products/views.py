@@ -53,6 +53,16 @@ def index(request):
     })
 
 def brand(request, brand_id):
+    if not request.session.session_key:
+        ck_message = 'not'
+        request.session.create()
+        current_session_key = request.session.session_key
+    else:
+        ck_message = 'yes'
+        current_session_key = request.session.session_key
+    
+    cart = Cart.objects.get_or_create(session_key = current_session_key)[0]
+
     allbrands = Brand.objects.all()
     allcategories = Category.objects.all()
     br = Brand.objects.get(id = brand_id)
@@ -68,6 +78,16 @@ def brand(request, brand_id):
     })
 
 def series(request, brand_id, series_id):
+    if not request.session.session_key:
+        ck_message = 'not'
+        request.session.create()
+        current_session_key = request.session.session_key
+    else:
+        ck_message = 'yes'
+        current_session_key = request.session.session_key
+    
+    cart = Cart.objects.get_or_create(session_key = current_session_key)[0]
+
     allbrands = Brand.objects.all()
     allcategories = Category.objects.all()
 
@@ -85,6 +105,16 @@ def series(request, brand_id, series_id):
     })
 
 def category(request, category_id):
+    if not request.session.session_key:
+        ck_message = 'not'
+        request.session.create()
+        current_session_key = request.session.session_key
+    else:
+        ck_message = 'yes'
+        current_session_key = request.session.session_key
+    
+    cart = Cart.objects.get_or_create(session_key = current_session_key)[0]
+
     br = Brand.objects.all()
     allcategories = Category.objects.all()
     current_category = category_id
@@ -170,8 +200,16 @@ def filter_products(request):
 
 
 def product_page(request, product_id):
-    current_session_key = request.session.session_key
-    cart = Cart.objects.get(session_key = current_session_key)
+    if not request.session.session_key:
+        ck_message = 'not'
+        request.session.create()
+        current_session_key = request.session.session_key
+    else:
+        ck_message = 'yes'
+        current_session_key = request.session.session_key
+    
+    cart = Cart.objects.get_or_create(session_key = current_session_key)[0]
+
 
     allbrands = Brand.objects.all()
     allcategories = Category.objects.all()
