@@ -220,11 +220,14 @@ def product_page(request, product_id):
     current_product.product_rate += 1
     current_product.save()
 
-    current_viewed = ViewedProduct(
-        cart = cart,
-        pr_id = current_product.id,
-    )
-    current_viewed.save()
+    try:
+        current_viewed = ViewedProduct(
+            cart = cart,
+            pr_id = current_product.id,
+        )
+        current_viewed.save()
+    except:
+        pass
 
     return render(request, 'products/product_page.html', {
         'allbrands': allbrands,
