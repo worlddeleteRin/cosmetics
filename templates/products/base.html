@@ -78,22 +78,22 @@ $(".filter__block__content").click(function() {
 //var filter_destinations = []
 
 var [filter_hair, filter_prtype, filter_destinations,
-filter_brands] = collectActive();
+filter_brands, filter_series] = collectActive();
 
-console.log(filter_hair)
-console.log(filter_prtype)
-console.log(filter_destinations)
-console.log(filter_brands)
+// console.log(filter_hair)
+// console.log(filter_prtype)
+// console.log(filter_destinations)
+// console.log(filter_brands)
 
 loadProducts(filter_hair, filter_prtype, filter_destinations,
-filter_brands)
+filter_brands, filter_series)
 
 
 
 })
 
 function loadProducts(filter_hair, filter_prtype, 
-filter_destinations, filter_brands) {
+filter_destinations, filter_brands, filter_series) {
 
 var brand_id = "{{ current_brand }}"
 var ser_id = "{{ current_ser }}"
@@ -104,7 +104,7 @@ $(".products__container").html('').load(
     "&series=" + ser_id + "&hair_filters=" + filter_hair + 
     "&prtype_filters=" + filter_prtype + "&dest_filters=" + 
     filter_destinations + "&cat_id=" + category_id + 
-    "&brands_filter=" + filter_brands
+    "&brands_filter=" + filter_brands + "&series_filter=" + filter_series
 )
 }
 
@@ -113,21 +113,24 @@ var active_hair = []
 var active_types = []
 var active_destinations = []
 var active_brands = []
+var active_series
 
 var hair_class = $(".filter__hairtype")
 var prtype_class = $(".filter_prtype")
 var destination_class = $(".filter_destination")
 var brands_class = $(".filter__brands_filter")
+var series_class = $(".series_filter_content")
 
 active_hair = parseActive(hair_class)
 active_types = parseActive(prtype_class)
 active_destinations = parseActive(destination_class)
 active_brands_filter = parseActive(brands_class)
+active_series_filter = parseActive(series_class)
 
 //console.log(active_hair)
 
 return [active_hair, active_types, active_destinations,
-active_brands_filter]
+active_brands_filter, active_series_filter]
 }
 function parseActive(parse_class) {
 var tmp_list = []

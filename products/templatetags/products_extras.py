@@ -28,6 +28,7 @@ def filter_prtype(products):
     result = result.order_by("name")
     return result
 
+
 @register.simple_tag
 def filter_destination(products): 
     pdest = []
@@ -39,6 +40,32 @@ def filter_destination(products):
     result = Destination.objects.filter(name__in = tlist)
     result = result.order_by("name")
     return result
+
+@register.simple_tag
+def filter_series(products):
+    pseries = []
+    for item in products:
+        for ser in item.pr_series.all():
+            pseries.append(ser.id)
+    d = dict.fromkeys(pseries)
+    tlist = list(d)
+    result = Series.objects.filter(
+        id__in = tlist
+    ) 
+    result = result.order_by("name")
+    return result
+
+# @register.simple_tag
+# def filter_obiem(products): 
+#     pdest = []
+#     for item in products:
+#         pdest.append(item.obiem)
+#     d = dict.fromkeys(pdest)
+#     tlist = list(d)
+#     # result = Destination.objects.filter(name__in = tlist)
+#     # result = result.order_by("name")
+#     result = tlist
+#     return result
 
 @register.simple_tag
 def format_price(price):

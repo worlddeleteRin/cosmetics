@@ -7,6 +7,7 @@ from os import walk
 import pandas as pd
 import requests
 import base64
+import math
 
 brand_img_path = 'static/images/'
 products_img_path = 'static/images/products/'
@@ -66,26 +67,29 @@ def make_products_final():
         current_url = item["imgurl"]
         print('downloading image:', current_url)
         if str(current_url) != 'nan':
-            if 'data:image' in current_url:
-                header, encoded = current_url.split(',', 1)
-                image_format = header.split('/', 1)[1].split(';')[0]
-                dec = base64.b64decode(encoded)
-                image_name = 'product_image_' + str(index) + '.' + image_format
-                file = open(to_save + image_name , "wb")
-                file.write(dec)
-                file.close()
-                data['imgurl'][index] = image_name
-            else:
-                r = requests.get(current_url, verify = False)
-                if r.status_code == 200:
-                    image_format = r.headers['Content-Type'].split('/')[1]
+            try:
+                if 'data:image' in current_url:
+                    header, encoded = current_url.split(',', 1)
+                    image_format = header.split('/', 1)[1].split(';')[0]
+                    dec = base64.b64decode(encoded)
                     image_name = 'product_image_' + str(index) + '.' + image_format
                     file = open(to_save + image_name , "wb")
-                    file.write(r.content)
+                    file.write(dec)
                     file.close()
                     data['imgurl'][index] = image_name
                 else:
-                    print('продукт по id', index, ' не может скачать изображение')
+                    r = requests.get(current_url, verify = False)
+                    if r.status_code == 200:
+                        image_format = r.headers['Content-Type'].split('/')[1]
+                        image_name = 'product_image_' + str(index) + '.' + image_format
+                        file = open(to_save + image_name , "wb")
+                        file.write(r.content)
+                        file.close()
+                        data['imgurl'][index] = image_name
+                    else:
+                        print('продукт по id', index, ' не может скачать изображение')
+            except:
+                print('проблемы со скачиванием изображения, индекс продукта - ', index)
         else:
             print('no image specified')
         data.to_csv(export_path + 'data2.csv')
@@ -167,15 +171,34 @@ def createproducts(products_data, series_not_created):
 
         price = item["price"].replace(" ", "")
         price = int(price)
-        new_product = Product(
-        pr_brand = current_brand,
-        # pr_series = current_series,
-        name = item["name"],
-        price = price,
-        description = item["description"],
-        obiem = item["obiem"],
-        imgurl = item["imgurl"],
-    )
+
+        print('Цена: ', price)
+
+        if (len(str(item["imgurl"])) < 4):
+            imgurl = None
+            print('imgurl is None', imgurl)
+            new_product = Product(
+                pr_brand = current_brand,
+                # pr_series = current_series,
+                name = item["name"],
+                price = price,
+                description = item["description"],
+                obiem = item["obiem"],
+            )
+        else:
+            imgurl = item["imgurl"]
+            print('imgurl is', imgurl)
+            new_product = Product(
+                pr_brand = current_brand,
+                # pr_series = current_series,
+                name = item["name"],
+                price = price,
+                description = item["description"],
+                obiem = item["obiem"],
+                imgurl = imgurl,
+            )
+
+        
         new_product.save()
             
         if type(item["nazhnachenie"])  == str:
@@ -241,6 +264,7 @@ def createall():
     createproducts(products_data, series_not_created)
 
 if __name__ == '__main__':
+    deleteall()
     # make_products_file()
     # make_products_final()
     # make_series_file()

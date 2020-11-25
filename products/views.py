@@ -141,6 +141,7 @@ def filter_products(request):
     f_prtype = []
     f_dest = []
     f_brands = []
+    f_series = []
 
     if (request.GET['brand']):
         brand = request.GET['brand']
@@ -168,6 +169,10 @@ def filter_products(request):
         dest = request.GET['dest_filters'].split(',')
         for item in dest:
             f_dest.append(item)
+    if (request.GET['series_filter']):
+        current_series_filter = request.GET['series_filter'].split(',')
+        for item in current_series_filter:
+            f_series.append(item)
 
 
     if len(f_hair) > 0:
@@ -177,8 +182,9 @@ def filter_products(request):
     if len(f_dest) > 0:
         products = products.filter(pr_destination__id__in = f_dest)
     if len(f_brands) > 0:
-        
         products = products.filter(pr_brand__id__in = f_brands)
+    if len(f_series) > 0:
+        products = products.filter(pr_series__id__in = f_series)
 
     
     pid = products.values('id').distinct()

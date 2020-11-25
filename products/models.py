@@ -53,7 +53,8 @@ class Product(models.Model):
     description = models.CharField(max_length = 2000, default = '')
     obiem = models.CharField(max_length = 10, default = '')
     # imgurl = models.CharField(max_length = 2000, default = '')
-    imgurl = models.ImageField(upload_to='static/images/products', blank = True, null = True)    
+    imgurl = models.ImageField(upload_to='static/images/products', blank = True, null = True,
+    default = 'omega.png')    
     product_rate = models.IntegerField(default = 0)
 
     def __str__(self):

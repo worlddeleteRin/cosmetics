@@ -2,6 +2,41 @@
  <div class="filter__wrap">
     <div class="filter__container">
 
+    {% comment %} series filter {% endcomment %}
+
+    {% if filters_series|length > 1 %}
+            <div class="filter__block">
+        <div class="filter__block__wrapper">
+        
+            <a class="filter__block__heading"
+            data-target="#series_filter_content">
+            <i class="gg-arrow-down"></i>
+                Серия
+            </a>
+
+            <div class="filter__block__content__wrapper"
+            id="series_filter_content">
+
+            {% for ser_filter in filters_series %}
+                <div class="filter__block__content series_filter_content">
+                        <li value="{{ser_filter.id}}"
+                        class="filter__check__button"
+                        style="display: flex">
+                        <i class="gg-radio-check"></i>
+                        <i class="gg-check-r"></i>
+                        <span class="check__text__box">
+                            {{ ser_filter.name }}
+                        </span>
+                        </li>
+                </div>
+            
+            {% endfor %}
+            
+            </div>
+        </div>
+        </div>
+        {% endif %}
+
     {% comment %} brands filter {% endcomment %}
         {% if current_brands_filter %}
             <div class="filter__block">
@@ -134,6 +169,9 @@
         </div>
         </div>
         {% endif %}
+
+
+  
 
 
 
