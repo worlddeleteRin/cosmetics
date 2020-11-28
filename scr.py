@@ -204,12 +204,13 @@ def createproducts(products_data, series_not_created):
         if type(item["nazhnachenie"])  == str:
             for n in eval(item["nazhnachenie"]):
                 n = n.strip()
-                destination = Destination.objects.get_or_create(name = n)[0]
-                new_product.pr_destination.add(destination)
+                if len(n) > 1:
+                    destination = Destination.objects.get_or_create(name = n)[0]
+                    new_product.pr_destination.add(destination)
         if type(item["tip_volos"]) == str:
             for n in eval(item["tip_volos"]):
                 n = n.strip()
-                if n != '-':
+                if n != '-' and len(n) > 1:
                     hairtype = Hairtype.objects.get_or_create(name = n)[0]
                     new_product.pr_hairtype.add(hairtype)
         if type(item["category"]) == str:
@@ -222,19 +223,21 @@ def createproducts(products_data, series_not_created):
         if type(item["product_type"]) == str:
             for n in eval(item["product_type"]):
                 n = n.strip()
-                product_type = Prtype.objects.get_or_create(name = n)[0]
-                new_product.pr_prtype.add(product_type)
+                if len(n) > 1:
+                    product_type = Prtype.objects.get_or_create(name = n)[0]
+                    new_product.pr_prtype.add(product_type)
         if type(item['lineika']) == str:
             for n in eval(item['lineika']):
                 n = n.strip()
                 # n = n.lower()
-                if Series.objects.filter(name = n).exists():
-                    current_series = Series.objects.get(name = n)
-                    new_product.pr_series.add(current_series)
-                else:
-                    not_ser.append(np.array([item["name"], item["proizvoditel"], n]))
-                    print('not found series:', n)
-                    nf_series += 1
+                if len(n) > 1:
+                    if Series.objects.filter(name = n).exists():
+                        current_series = Series.objects.get(name = n)
+                        new_product.pr_series.add(current_series)
+                    else:
+                        not_ser.append(np.array([item["name"], item["proizvoditel"], n]))
+                        print('not found series:', n)
+                        nf_series += 1
 #         
         i = i + 1
         print('id: ', index, new_product.id, new_product.name, ' created')
