@@ -297,8 +297,8 @@ def create_order_ajax(request):
         admin_html_message_plain,
         settings.EMAIL_HOST_USER,
         [
-            'worlddelete0@mail.ru',
-            # 'proff-butik@mail.ru'
+            # 'worlddelete0@mail.ru',
+            'proff-butik@mail.ru'
         ],
         html_message = admin_html_message
         )
