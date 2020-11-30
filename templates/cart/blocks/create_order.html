@@ -13,6 +13,7 @@
         var payment_method = $("input[name='payment_method']:checked").val()
         var customer_name = $("input[name='customer_name']").val()
         var customer_phone = $("input[name='customer_phone']").val()
+        var customer_email = $("input[name='customer_email']").val()
         var customer_city = $("input[name='customer_address_city']").val()
         var customer_address = $("input[name='customer_address_fullad']").val()
         var all_price = parseInt($("#allprice__price").attr("value"))
@@ -31,7 +32,7 @@
             $("#error__payment").addClass("visible")
             var check_status = "error"
         }
-        if ((customer_name) && (customer_phone)) {
+        if ((customer_name) && (customer_phone) && (customer_email)) {
             $("#error__customer__info").removeClass("visible")
         } else {
             $("#error__customer__info").addClass("visible")
@@ -65,6 +66,7 @@
                     'payment_method': payment_method,
                     'customer_name': customer_name,
                     'customer_phone': customer_phone,
+                    'customer_email': customer_email,
                     'customer_city': customer_city,
                     'customer_address': customer_address
                 },

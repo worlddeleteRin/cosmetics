@@ -324,12 +324,19 @@ def contact_form_ajax(request):
     print('name is', name)
     print('phone is', phone)
 
-    send_mail(
-    'Новая заявка на сайте!',
-    'Имя: {} .Номер: {} '.format(name, phone),
-    settings.EMAIL_HOST_USER,
-    ['proff-butik@mail.ru'],
-    )
+    try:
+        print('trying to send mail')
+        send_mail(
+        'Новая заявка на сайте!',
+        'Имя: {} .Номер: {} '.format(name, phone),
+        settings.EMAIL_HOST_USER,
+        [
+            # 'worlddelete0@mail.ru',
+            'proff-butik@mail.ru'
+        ],
+        )
+    except:
+        print('was an error when send mail')
     return JsonResponse({
         'success': 'true',
     }, status = 200)

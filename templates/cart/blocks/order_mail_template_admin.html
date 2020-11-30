@@ -1,0 +1,86 @@
+{% load static %}
+{% load products_extras %}
+
+<h2>
+    Новый заказ! № {{ order_id }}. Сумма заказа: {{ order_price_mail }}.
+</h2>
+
+<div>
+    <table>
+        <tr>
+            <td class="order_mail_td">
+                Статус
+            </td>
+            <td>
+            -->
+                Ожидает подтверждения менеджером
+            </td>
+        </tr>
+        <tr>
+            <td class="order_mail_td">
+                Имя
+            </td>
+            <td>
+            -->
+                {{ name }}
+            </td>
+        </tr>
+        <tr>
+            <td class="order_mail_td">
+                Email
+            </td>
+            <td>
+            -->
+                {{ email }}
+            </td>
+        </tr>
+        <tr>
+            <td class="order_mail_td">
+                Адрес доставки
+            </td>
+            <td>
+            -->
+                {{ delivery_address }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Способ доставки:
+            </td>
+            <td>
+            -->
+                {{ delivery_method_mail }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Комментарий к заказу:
+            </td>
+            <td>
+            -->
+                {{ order_comment_mail }}
+            </td>
+        </tr>
+    </table>
+    <br> <br>
+    <h3>
+        Состав заказа:
+    </h3>
+    <br>
+    <table>
+        {% for item in cart_items_all %}
+            <tr>
+                <td>
+                    {% corrent_imgurl item.imgurl as correct_productimg %}
+                    <img src="{% static 'images/products/' %}{{ correct_productimg }}" alt="">      
+                </td>
+                <td>
+                    {{ item.name }}
+                </td>
+                <td>
+                    {{ item.quantity }} x {{ item.price }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

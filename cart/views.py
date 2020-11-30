@@ -16,6 +16,9 @@ from django.core import serializers
 from django.core.mail import send_mail
 from django.conf import settings
 
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 
 # Create your views here.
 
@@ -235,12 +238,15 @@ def create_order_ajax(request):
     customer_address = urllib.parse.unquote(customer_address)
     order_comment = request.GET['cart_comment']
     order_comment = urllib.parse.unquote(order_comment)
+    customer_email = request.GET['customer_email']
+    customer_email = urllib.parse.unquote(customer_email)
 
     order_price = int(delivery_cost) + cart.get_total_promo()
 
     new_order = Orders(
         name = customer_name,
         phone = customer_phone,
+        email = customer_email,
         delivery = delivery_method + ' ' + delivery_cost,
         payment = payment_method,
         city = customer_city,
@@ -253,8 +259,9 @@ def create_order_ajax(request):
     cart_items_mail = []
     order_price_mail = order_price
     order_comment_mail = order_comment
-    customer_address_mail = customer_address
+    customer_address_mail = customer_city + ', ' +  customer_address
     delivery_method_mail = delivery_method
+    order_id = new_order.id
 
     for item in cart_items:
         new_order.item_set.add(item)
@@ -266,16 +273,50 @@ def create_order_ajax(request):
     cart.promo = None
     cart.save()
 
-    send_mail(
-    'Новый заказ на сайте!',
-    'Имя: {} .Номер: {} '.format(customer_name, customer_phone) + 
-    str(cart_items_mail) + ' Сумма заказа: {}'.format(order_price_mail) +
-    ' Адрес доставки: {}'.format(customer_address_mail) +
-    ' Способ доставки: {} . Комментарий к заказу: {}'.format
-    (delivery_method_mail, order_comment_mail),
-    settings.EMAIL_HOST_USER,
-    ['proff-butik@mail.ru'],
-    )
+    cart_items_all = new_order.item_set.all()
+
+    context = {
+        'order_id': order_id,
+        'order_price_mail': order_price_mail,
+        'name': customer_name,
+        'phone': customer_phone,
+        'email': customer_email,
+        'delivery_address': customer_address_mail,
+        'cart_items_all': cart_items_all,
+        'delivery_method_mail': delivery_method_mail,
+        'order_comment_mail': order_comment_mail,
+    }
+    client_html_message = render_to_string('cart/blocks/order_mail_template.html', context)
+    client_html_message_plain = strip_tags(client_html_message)
+
+    admin_html_message = render_to_string('cart/blocks/order_mail_template_admin.html', context)
+    admin_html_message_plain = strip_tags(admin_html_message)
+    try:
+        send_mail(
+        '',
+        admin_html_message_plain,
+        settings.EMAIL_HOST_USER,
+        [
+            'worlddelete0@mail.ru',
+            # 'proff-butik@mail.ru'
+        ],
+        html_message = admin_html_message
+        )
+        print('mail is sent')
+
+        print('try to send mail')
+        send_mail(
+        '',
+        client_html_message_plain,
+        settings.EMAIL_HOST_USER,
+        [
+            customer_email,
+            # 'proff-butik@mail.ru'
+        ],
+        html_message = client_html_message
+        )
+    except: 
+        print('was an error when send mail')
 
     return JsonResponse({
         'order_created': 'yes',

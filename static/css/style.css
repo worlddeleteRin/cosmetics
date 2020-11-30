@@ -5,6 +5,10 @@ body.overflow {
     overflow: hidden;
 }
 
+.order_mail_td {
+    background-color: grey;
+}
+
 .loading__block {
     display: none;
     position: fixed;
