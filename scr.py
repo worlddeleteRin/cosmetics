@@ -231,8 +231,8 @@ def createproducts(products_data, series_not_created):
                 n = n.strip()
                 # n = n.lower()
                 if len(n) > 1:
-                    if Series.objects.filter(name = n).exists():
-                        current_series = Series.objects.get(name = n)
+                    if Series.objects.filter(name__icontains = n).exists():
+                        current_series = Series.objects.filter(name__icontains = n)[0]
                         new_product.pr_series.add(current_series)
                     else:
                         not_ser.append(np.array([item["name"], item["proizvoditel"], n]))
@@ -268,9 +268,9 @@ def createall():
 
 if __name__ == '__main__':
     deleteall()
-    # make_products_file()
-    # make_products_final()
-    # make_series_file()
+    make_products_file()
+    make_products_final()
+    make_series_file()
     createall()
 
 
