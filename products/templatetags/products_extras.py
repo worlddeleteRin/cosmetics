@@ -69,7 +69,7 @@ def filter_series(products):
 
 @register.simple_tag
 def format_price(price):
-    new_price = '{:,}'.format(price)
+    new_price = '{:,.2f}'.format(price).replace(',', ' ').replace('.', ',')
     return new_price
 
 

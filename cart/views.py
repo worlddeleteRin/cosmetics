@@ -291,14 +291,15 @@ def create_order_ajax(request):
 
     admin_html_message = render_to_string('cart/blocks/order_mail_template_admin.html', context)
     admin_html_message_plain = strip_tags(admin_html_message)
+
     try:
         send_mail(
-        '',
+        'Заказ № {}'.format(order_id),
         admin_html_message_plain,
         settings.EMAIL_HOST_USER,
         [
-            # 'worlddelete0@mail.ru',
-            'proff-butik@mail.ru'
+            'worlddelete0@mail.ru',
+            # 'proff-butik@mail.ru'
         ],
         html_message = admin_html_message
         )
@@ -306,7 +307,7 @@ def create_order_ajax(request):
 
         print('try to send mail')
         send_mail(
-        '',
+        'Заказ № {}'.format(order_id),
         client_html_message_plain,
         settings.EMAIL_HOST_USER,
         [
