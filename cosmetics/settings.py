@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'cart',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [

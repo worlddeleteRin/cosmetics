@@ -75,10 +75,19 @@
                     <img src="{% static 'images/products/' %}{{ correct_productimg }}" alt="">      
                 </td>
                 <td>
-                    {{ item.name }}
+                    {{ item.name }} ({{ item.brand }}, 
+                    {% if item.series %}
+                    {{ item.series }}
+                    {% endif %}
+                    , {{ item.obiem }})
                 </td>
                 <td>
-                    {{ item.quantity }} x {{ item.price }}
+                    {{ item.quantity }} x 
+                    {% if item.sale_price %}
+                        {{ item.sale_price }}
+                        {% else %}
+                        {{ item.price }}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

@@ -39,18 +39,27 @@ class Series(models.Model):
     def __str__(self):
         return self.name
 
+class Status(models.Model):
+    status_id = models.IntegerField()
+    name = models.CharField(max_length = 200, default = None)
+
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     pr_brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING)
+    pr_status = models.ForeignKey(Status, on_delete = models.DO_NOTHING)
 
     pr_series = models.ManyToManyField(Series)
     pr_prtype = models.ManyToManyField(Prtype)
     pr_category = models.ManyToManyField(Category)
-    pr_destination = models.ManyToManyField(Destination)
-    pr_hairtype = models.ManyToManyField(Hairtype)
+    pr_destination = models.ManyToManyField(Destination, default = None, blank = True)
+    pr_hairtype = models.ManyToManyField(Hairtype, default = None, blank = True)
 
     name = models.CharField(max_length=200, default = '')
     price = models.IntegerField()
-    description = models.CharField(max_length = 2000, default = '')
+    sale_price = models.IntegerField(default = None, blank = True, null = True)
+    description = models.TextField(max_length = None, default = '')
     obiem = models.CharField(max_length = 10, default = '')
     # imgurl = models.CharField(max_length = 2000, default = '')
     imgurl = models.ImageField(upload_to='static/images/products', blank = True, null = True,

@@ -24,7 +24,10 @@ class Cart(models.Model):
     def get_total(self):
         total = 0
         for item in self.item_set.all():
-            total += item.price * item.quantity
+            if item.sale_price:
+                total += item.sale_price * item.quantity
+            else:
+                total += item.price * item.quantity
         return total
     def if_items_empty(self):
         if (len(self.item_set.all()) < 1):
@@ -34,7 +37,10 @@ class Cart(models.Model):
     def get_total_promo(self):
         total = 0
         for item in self.item_set.all():
-            total += item.price * item.quantity
+            if item.sale_price:
+                total += item.sale_price * item.quantity
+            else:
+                total += item.price * item.quantity
         if (self.promo != None):
             total = total - ((total * self.promo.discount) / 100)
         return total
@@ -74,13 +80,20 @@ class Item(models.Model):
     default = None, blank = True, null = True )
 
     name = models.CharField(max_length = 200, default = '')
+    brand = models.CharField(max_length = 200, default = '', null = True, blank = True)
+    series = models.CharField(max_length = 200, default = '', null = True, blank = True)
+    obiem = models.CharField(max_length = 200, default = '', null = True, blank = True)
     price = models.IntegerField(default = 0)
+    sale_price = models.IntegerField(default = None, blank = True, null = True)
     # imgurl = models.CharField(max_length = 300, default = '')
     imgurl = models.ImageField(upload_to='static/images/products')
     quantity = models.IntegerField(default = 1)
 
     def product_order_price(self):
-        return self.price * self.quantity
+        if self.sale_price:
+            return self.sale_price * self.quantity
+        else:
+            return self.price * self.quantity
 
     def __str__(self):
         return self.name 

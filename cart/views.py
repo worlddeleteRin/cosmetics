@@ -65,7 +65,11 @@ def add_item(request, product_id):
             cart = cart,
             name = product.name,
             price = product.price,
+            sale_price = product.sale_price,
             imgurl = product.imgurl,
+            brand = product.pr_brand.name,
+            series = product.pr_series.name,
+            obiem = product.obiem,
         )
         new_item.save()
     return HttpResponseRedirect(reverse('cart:index'))
@@ -137,7 +141,10 @@ def update_item_amount_ajax(request):
     cart = Cart.objects.get(session_key = current_session_key)
     item_id = request.GET['item_id']
     current_item = Item.objects.get(id = item_id, cart = cart)
-    amount = current_item.quantity * current_item.price
+    if current_item.sale_price:
+        amount = current_item.quantity * current_item.sale_price
+    else:
+        amount = current_item.quantity * current_item.price
     return JsonResponse({
         'message': 'everything is ok',
         'item_amount': amount,
@@ -209,7 +216,11 @@ def add_to_cart_ajax(request):
             cart = cart, 
             name = current_product.name,
             price = current_product.price,
+            sale_price = current_product.sale_price,
             imgurl = current_product.imgurl,
+            brand = current_product.pr_brand.name,
+            series = current_product.pr_series.name,
+            obiem = current_product.obiem,
         )
         item.save()
 

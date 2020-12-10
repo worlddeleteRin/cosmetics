@@ -14,6 +14,20 @@
         <div class="product__brand">
             {{  product.pr_brand.name }}
         </div>
+        {% if product.pr_status.status_id == 1 %}
+        
+        <div class="product_status">
+            <span>
+                {{ product.pr_status.name }}
+            </span>
+        </div>
+            {% else %}
+            <div class="product_status red">
+            <span>
+                {{ product.pr_status.name }}
+            </span>
+            </div>
+        {% endif %}
         <div class="product__name">
         <a href="{% url 'products:product_page' product.id %}">
             {{ product.name }}
@@ -24,9 +38,24 @@
             {{ product.obiem }}
         </div>
         {% endif %}
-        <div class="product__price">
-            {{ price }} &#x20BD;
-        </div>
+        {% if product.sale_price %}
+            {% format_price product.sale_price as sale_price %}
+            <div class="product__price">
+                <span class="new_price">
+                {{ sale_price }} &#x20BD;
+                </span>
+                <span class="old_price">
+                    <strike>
+                {{ price }} &#x20BD;
+                    </strike>
+                </span>
+            </div>
+            {% else %}
+            <div class="product__price">
+                {{ price }} &#x20BD;
+            </div>
+        {% endif %}
+        
 
         <a class="product__addcart__link" value="{{product.id}}"
         onclick="">

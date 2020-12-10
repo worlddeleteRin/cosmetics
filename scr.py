@@ -172,6 +172,10 @@ def createproducts(products_data, series_not_created):
         price = item["price"].replace(" ", "")
         price = int(price)
 
+        status = Status.objects.get(
+            status_id = 1
+        )
+
         print('Цена: ', price)
 
         if (len(str(item["imgurl"])) < 4):
@@ -179,6 +183,7 @@ def createproducts(products_data, series_not_created):
             print('imgurl is None', imgurl)
             new_product = Product(
                 pr_brand = current_brand,
+                pr_status = status,
                 # pr_series = current_series,
                 name = item["name"],
                 price = price,
@@ -190,6 +195,7 @@ def createproducts(products_data, series_not_created):
             print('imgurl is', imgurl)
             new_product = Product(
                 pr_brand = current_brand,
+                pr_status = status,
                 # pr_series = current_series,
                 name = item["name"],
                 price = price,
@@ -268,10 +274,10 @@ def createall():
 
 if __name__ == '__main__':
     deleteall()
-    make_products_file()
-    make_products_final()
-    make_series_file()
+    # make_products_file()
+    # make_products_final()
+    # make_series_file()
     createall()
 
 
-    
+   

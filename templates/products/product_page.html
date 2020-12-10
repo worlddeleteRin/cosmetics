@@ -1,6 +1,9 @@
 {% extends './base.html' %}
 {% load static %}
 {% load products_extras %}
+
+{% load markdown_deux_tags %}
+{% markdown_cheatsheet %}
  
 
 
@@ -18,6 +21,20 @@
             <div class="product__container__name">
                 {{ product.name }}
             </div>
+            {% if product.pr_status.status_id == 1 %}
+        
+        <div class="product_status big">
+            <span>
+                {{ product.pr_status.name }}
+            </span>
+        </div>
+            {% else %}
+            <div class="product_status big red">
+            <span>
+                {{ product.pr_status.name }}
+            </span>
+            </div>
+        {% endif %}
             {% if product.obiem != 'nan'%}
             <div class="product_volume product_prpage_volume">
                 {{ product.obiem }}
@@ -88,7 +105,9 @@
                 <div class="product__desc__block__title">
                 Описание
                 </div>
-                <div class="product__desc__block__description">{{ product.description }}</div>
+                <div class="product__desc__block__description">
+                    {{ product.description | markdown }}
+                </div>
             </div>
             <!--end product description block-->
         </div>
