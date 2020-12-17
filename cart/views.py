@@ -310,7 +310,7 @@ def create_order_ajax(request):
         settings.EMAIL_HOST_USER,
         [
             'worlddelete0@mail.ru',
-            # 'proff-butik@mail.ru'
+            'proff-butik@mail.ru'
         ],
         html_message = admin_html_message
         )

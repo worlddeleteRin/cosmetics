@@ -25,7 +25,7 @@ SECRET_KEY = 'n5o!=a$pzk6$i=k3l**114c=j9+$vu5+wvuw$@&fi&j(b^fp-t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -141,9 +141,9 @@ EMAIL_HOST = 'smtp.mail.ru'
 # EMAIL_PORT = 465
 EMAIL_PORT = 2525
 # EMAIL_HOST_USER = "worlddelete0@yandex.ru"
-EMAIL_HOST_USER = "proff-butik@mail.ru"
+EMAIL_HOST_USER = "worlddelete0@mail.ru"
 # EMAIL_HOST_PASSWORD = "Worldhack0"
-EMAIL_HOST_PASSWORD = "8458385inna"
+EMAIL_HOST_PASSWORD = "Worldhack0Rin"
 # EMAIL_USE_SSL = True
 EMAIL_USE_TLS = True
 
