@@ -141,9 +141,11 @@ EMAIL_HOST = 'smtp.mail.ru'
 # EMAIL_PORT = 465
 EMAIL_PORT = 2525
 # EMAIL_HOST_USER = "worlddelete0@yandex.ru"
-EMAIL_HOST_USER = "worlddelete0@mail.ru"
+# EMAIL_HOST_USER = "worlddelete0@mail.ru"
+EMAIL_HOST_USER = "proff-butik@mail.ru"
 # EMAIL_HOST_PASSWORD = "Worldhack0"
-EMAIL_HOST_PASSWORD = "Worldhack0Rin"
+# EMAIL_HOST_PASSWORD = "Worldhack0Rin"
+EMAIL_HOST_PASSWORD = "5940070inna"
 # EMAIL_USE_SSL = True
 EMAIL_USE_TLS = True
 
