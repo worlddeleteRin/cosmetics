@@ -293,6 +293,7 @@ def create_order_ajax(request):
         'phone': customer_phone,
         'email': customer_email,
         'delivery_address': customer_address_mail,
+        'delivery_cost': delivery_cost,
         'cart_items_all': cart_items_all,
         'delivery_method_mail': delivery_method_mail,
         'order_comment_mail': order_comment_mail,
@@ -309,8 +310,8 @@ def create_order_ajax(request):
         admin_html_message_plain,
         settings.EMAIL_HOST_USER,
         [
-            # 'worlddelete0@mail.ru',
-            'proff-butik@mail.ru'
+            'worlddelete0@yandex.ru',
+            # 'proff-butik@mail.ru'
         ],
         html_message = admin_html_message
         )

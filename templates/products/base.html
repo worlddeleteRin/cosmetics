@@ -61,6 +61,7 @@
     
 
     <script>
+   
     cartUpdateTotal()
 
 
@@ -92,6 +93,54 @@ filter_brands, filter_series)
 
 })
 
+function setActiveFilters() {
+    console.log('setting active filters')
+    current_url = window.location.href
+    var url = new URL(current_url)
+    var brand = url.searchParams.get('brand')
+    var series = url.searchParams.get('series')
+    var hair_filters = url.searchParams.get('hair_filters')
+    var prtype_filters = url.searchParams.get('prtype_filters')
+    var dest_filters = url.searchParams.get('dest_filters')
+    var brands_filter = url.searchParams.get('brands_filter')
+    var series_filter = url.searchParams.get('series_filter')
+    if (brands_filter.length > 0) {
+        brands_filter = brands_filter.split(',')
+        for (i = 0; i < brands_filter.length; i++) {
+            $("#brands_filter_content").addClass('show')
+        $('#brands_filter_content').find(".filter__check__button[value='" + brands_filter[i] + "']").parent().addClass('active')
+        }
+    }
+    if (hair_filters.length > 0) {
+        hair_filters = hair_filters.split(',')
+        for (i = 0; i < hair_filters.length; i++) {
+            $("#hairtype_content").addClass('show')
+        $('#hairtype_content').find(".filter__check__button[value='" + hair_filters[i] + "']").parent().addClass('active')
+        }
+    }
+    if (prtype_filters.length > 0) {
+        prtype_filters = prtype_filters.split(',')
+        for (i = 0; i < prtype_filters.length; i++) {
+            $("#prtype_content").addClass('show')
+        $('#prtype_content').find(".filter__check__button[value='" + prtype_filters[i] + "']").parent().addClass('active')
+        }
+    }
+    if (dest_filters.length > 0) {
+        dest_filters = dest_filters.split(',')
+        for (i = 0; i < dest_filters.length; i++) {
+            $("#destination_content").addClass('show')
+        $('#destination_content').find(".filter__check__button[value='" + dest_filters[i] + "']").parent().addClass('active')
+        }
+    }
+    if (series_filter.length > 0) {
+        series_filter = series_filter.split(',')
+        for (i = 0; i < series_filter.length; i++) {
+            $("#series_filter_content").addClass('show')
+        $('#series_filter_content').find(".filter__check__button[value='" + series_filter[i] + "']").parent().addClass('active')
+        }
+    }
+}
+
 function loadProducts(filter_hair, filter_prtype, 
 filter_destinations, filter_brands, filter_series) {
 
@@ -99,13 +148,38 @@ var brand_id = "{{ current_brand }}"
 var ser_id = "{{ current_ser }}"
 var category_id = "{{ current_category }}"
 
-$(".products__container").html('').load(
-    "{% url 'products:filter_products'%}?brand=" + brand_id + 
+var filter_path = "?brand=" + brand_id + 
     "&series=" + ser_id + "&hair_filters=" + filter_hair + 
     "&prtype_filters=" + filter_prtype + "&dest_filters=" + 
     filter_destinations + "&cat_id=" + category_id + 
     "&brands_filter=" + filter_brands + "&series_filter=" + filter_series
-)
+var current_url = window.location.pathname
+var filter_url = current_url + filter_path
+    console.log('url path is', filter_path)
+    console.log('current url is', current_url)
+    console.log('full filter url is', filter_url)
+
+    // window.location.href = filter_url
+    $.ajax({
+        url: filter_url,
+        cache: false,
+        success: function(data) {
+            console.log(data)
+            $(".products__container").html(data)
+            // window.location.href = filter_url
+            // window.location.pathname = filter_url
+            window.history.pushState({}, null, filter_url)
+            // setActiveFilters()
+        }
+    })
+// $(".products__container").html('').load(
+//     "{% url 'products:filter_products'%}?brand=" + brand_id + 
+//     "&series=" + ser_id + "&hair_filters=" + filter_hair + 
+//     "&prtype_filters=" + filter_prtype + "&dest_filters=" + 
+//     filter_destinations + "&cat_id=" + category_id + 
+//     "&brands_filter=" + filter_brands + "&series_filter=" + filter_series
+// )
+
 }
 
 function collectActive() {
@@ -188,6 +262,7 @@ function cartUpdateTotal() {
     }
     )
 }
+
 
     </script>
 

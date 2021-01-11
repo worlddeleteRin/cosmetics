@@ -129,3 +129,6 @@ $(".ck__container__btn").click(function () {
   console.log('clicked');
   $(".ck__wrap").addClass("hide");
 });
+$(document).ready(function () {
+  setActiveFilters();
+});

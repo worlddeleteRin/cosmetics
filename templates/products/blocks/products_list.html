@@ -1,11 +1,11 @@
  {% load products_extras %}
 
 
- {% filter_hairtype products as hairtypes %}
- {% filter_prtype products as prtypes %}
- {% filter_destination products as destinations %}
- {% filter_series products as filters_series %}
- {% comment %} {% filter_obiem products as obiems %} {% endcomment %}
+ {% filter_hairtype allproducts as hairtypes %}
+ {% filter_prtype allproducts as prtypes %}
+ {% filter_destination allproducts as destinations %}
+ {% filter_series allproducts as filters_series %}
+ {% comment %} {% filter_obiem allproducts as obiems %} {% endcomment %}
 
     {% include './products_filters_mobile.html' %}
 

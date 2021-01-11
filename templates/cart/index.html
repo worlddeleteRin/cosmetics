@@ -293,11 +293,29 @@
                //$(".total__amount").html(data['total_amount'])
                //$(".total__amount").attr("value", (data['total_amount']))
                setAllPrice()
+               checkDelivery()
+               setAllPrice()
+
+               
             }
         }); 
     }
+    function checkDelivery() {
+        current_method = $("#delivery__name").attr("value")
+        current_cart_price = $('.total__amount').attr("value")
+        if (current_method == 'Курьером') {
+            if (current_cart_price >= 2000) {
+                $('#delivery__price').attr('value', 0)
+                $('#delivery__price').html('0')
+            } else {
+                $('#delivery__price').attr('value', 200)
+                $('#delivery__price').html('200')
+            }
+        }
+    }
 
     $('input[type=radio][name=shipping_method]').change(function() {
+        update_total_amount()
         var price = 0
         var shipping_name = ''
         var cart_total = parseInt($(".total__amount").attr("value"))

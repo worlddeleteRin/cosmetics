@@ -68,7 +68,25 @@ def brand(request, brand_id):
     br = Brand.objects.get(id = brand_id)
     series = br.series_set.all()
     products = Product.objects.filter(pr_brand = br)
+    allproducts = Product.objects.filter(pr_brand = br)
+
+
+    if request.is_ajax():
+        products = filter_products2(request)
+        print('products length is', len(products))
+        return render(request, 'products/blocks/pr_flist.html', {
+            'allbrands': br,
+            'categories': allcategories,
+            'products': products,
+        })
+    try:
+        brand = request.GET['brand']
+
+        products = filter_products2(request)
+    except: 
+        pass
     return render(request, 'products/brand.html', {
+        'allproducts': allproducts,
         'allbrands': allbrands,
         'categories': allcategories,
         'products': products,
@@ -94,7 +112,26 @@ def series(request, brand_id, series_id):
     br = Brand.objects.get(id = brand_id)
     ser = Series.objects.get(id = series_id)
     products = Product.objects.filter(pr_brand  = br, pr_series = ser)
+
+    allproducts = Product.objects.filter(pr_brand = br)
+
+
+    if request.is_ajax():
+        products = filter_products2(request)
+        print('products length is', len(products))
+        return render(request, 'products/blocks/pr_flist.html', {
+            'allbrands': br,
+            'categories': allcategories,
+            'products': products,
+        })
+    try:
+        brand = request.GET['brand']
+
+        products = filter_products2(request)
+    except: 
+        pass
     return render(request, 'products/series.html', {
+        'allproducts': allproducts,
         'allbrands': allbrands,
         'categories': allcategories,
 
@@ -119,12 +156,28 @@ def category(request, category_id):
     allcategories = Category.objects.all()
     current_category = category_id
     products = Product.objects.filter(pr_category__id = category_id)
+    allproducts = Product.objects.filter(pr_category__id = category_id)
 
     curr_br = products.values('pr_brand').distinct()
     print(curr_br)
     current_brands_filter = Brand.objects.filter(id__in = curr_br)
 
+    if request.is_ajax():
+        products = filter_products2(request)
+        print('products length is', len(products))
+        return render(request, 'products/blocks/pr_flist.html', {
+            'allbrands': br,
+            'categories': allcategories,
+            'products': products,
+        })
+    try:
+        brand = request.GET['brand']
+
+        products = filter_products2(request)
+    except: 
+        pass
     return render(request, 'products/category.html', {
+        'allproducts': allproducts,
         'allbrands': br,
         'categories': allcategories,
         'current_category': current_category,
@@ -132,7 +185,9 @@ def category(request, category_id):
         'current_brands_filter': current_brands_filter,
     })
 
-def filter_products(request):
+
+
+def filter_products2(request):
     br = Brand.objects.all()
     allcategories = Category.objects.all()
 
@@ -145,32 +200,36 @@ def filter_products(request):
 
     if (request.GET['brand']):
         brand = request.GET['brand']
+        brand = urllib.parse.unquote(brand)
         products = products.filter(pr_brand__id = brand)
     if (request.GET['series']):
         series = request.GET['series']
+        series = urllib.parse.unquote(series)
         products = products.filter(pr_series__id = series)
     if (request.GET['cat_id']):
         category = request.GET['cat_id']
+        category = urllib.parse.unquote(category)
         products = products.filter(pr_category__id = category)
 
     if (request.GET['brands_filter']):
-        current_brands_filter = request.GET['brands_filter'].split(',')
+        current_brands_filter = urllib.parse.unquote(request.GET['brands_filter'])
+        current_brands_filter = current_brands_filter.split(',')
         for item in current_brands_filter:
             f_brands.append(int(item))
     if (request.GET['hair_filters']):
-        hair = request.GET['hair_filters'].split(',')
+        hair = urllib.parse.unquote(request.GET['hair_filters']).split(',')
         for item in hair:
             f_hair.append(item)
     if (request.GET['prtype_filters']):
-        prtype = request.GET['prtype_filters'].split(',')
+        prtype = urllib.parse.unquote(request.GET['prtype_filters']).split(',')
         for item in prtype:
             f_prtype.append(item)
     if (request.GET['dest_filters']):
-        dest = request.GET['dest_filters'].split(',')
+        dest = urllib.parse.unquote(request.GET['dest_filters']).split(',')
         for item in dest:
             f_dest.append(item)
     if (request.GET['series_filter']):
-        current_series_filter = request.GET['series_filter'].split(',')
+        current_series_filter = urllib.parse.unquote(request.GET['series_filter']).split(',')
         for item in current_series_filter:
             f_series.append(item)
 
@@ -191,18 +250,95 @@ def filter_products(request):
     products = Product.objects.filter(id__in = pid)
 
     if len(products) < 1:
-        return render(request, 'products/blocks/noprfilter.html', {
-           'allbrands': br,
-           'categories': allcategories, 
-        })
+        # return render(request, 'products/blocks/noprfilter.html', {
+        #    'allbrands': br,
+        #    'categories': allcategories, 
+        # })
+        return products
     else:
+        return products
+        # return render(request, 'products/blocks/pr_flist.html', {
+        #     'allbrands': br,
+        #     'categories': allcategories,
 
-        return render(request, 'products/blocks/pr_flist.html', {
-            'allbrands': br,
-            'categories': allcategories,
+        #     'products': products,
+        # })
+def filter_products(request):
+    br = Brand.objects.all()
+    allcategories = Category.objects.all()
 
-            'products': products,
-        })
+    products = Product.objects.all()
+    f_hair = []
+    f_prtype = []
+    f_dest = []
+    f_brands = []
+    f_series = []
+
+    if (request.GET['brand']):
+        brand = request.GET['brand']
+        brand = urllib.parse.unquote(brand)
+        products = products.filter(pr_brand__id = brand)
+    if (request.GET['series']):
+        series = request.GET['series']
+        series = urllib.parse.unquote(series)
+        products = products.filter(pr_series__id = series)
+    if (request.GET['cat_id']):
+        category = request.GET['cat_id']
+        category = urllib.parse.unquote(category)
+        products = products.filter(pr_category__id = category)
+
+    if (request.GET['brands_filter']):
+        current_brands_filter = urllib.parse.unquote(request.GET['brands_filter'])
+        current_brands_filter = current_brands_filter.split(',')
+        for item in current_brands_filter:
+            f_brands.append(int(item))
+    if (request.GET['hair_filters']):
+        hair = urllib.parse.unquote(request.GET['hair_filters']).split(',')
+        for item in hair:
+            f_hair.append(item)
+    if (request.GET['prtype_filters']):
+        prtype = urllib.parse.unquote(request.GET['prtype_filters']).split(',')
+        for item in prtype:
+            f_prtype.append(item)
+    if (request.GET['dest_filters']):
+        dest = urllib.parse.unquote(request.GET['dest_filters']).split(',')
+        for item in dest:
+            f_dest.append(item)
+    if (request.GET['series_filter']):
+        current_series_filter = urllib.parse.unquote(request.GET['series_filter']).split(',')
+        for item in current_series_filter:
+            f_series.append(item)
+
+
+    if len(f_hair) > 0:
+        products = products.filter(pr_hairtype__id__in = f_hair)
+    if len(f_prtype) > 0: 
+        products = products.filter(pr_prtype__id__in = f_prtype)
+    if len(f_dest) > 0:
+        products = products.filter(pr_destination__id__in = f_dest)
+    if len(f_brands) > 0:
+        products = products.filter(pr_brand__id__in = f_brands)
+    if len(f_series) > 0:
+        products = products.filter(pr_series__id__in = f_series)
+
+    
+    pid = products.values('id').distinct()
+    products = Product.objects.filter(id__in = pid)
+
+    if len(products) < 1:
+        # return render(request, 'products/blocks/noprfilter.html', {
+        #    'allbrands': br,
+        #    'categories': allcategories, 
+        # })
+        return products
+    else:
+        return products
+        # return render(request, 'products/blocks/pr_flist.html', {
+        #     'allbrands': br,
+        #     'categories': allcategories,
+
+        #     'products': products,
+        # })
 
 
 def product_page(request, product_id):
